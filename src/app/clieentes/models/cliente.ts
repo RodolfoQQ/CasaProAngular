@@ -2,7 +2,7 @@ export class Cliente{
 
      codEmpresa:number=0;
 
-     nombre:string="";
+     nombre!:string;
 
      ruc!:string;
 

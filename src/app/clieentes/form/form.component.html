@@ -53,13 +53,14 @@
                
             </tr>
         </thead>
+        
         <tbody>
-            <tr class="">   
-                <td class="">Rodolfo</td> 
-                <td>12331212</td>
-                <td>av. lalal</td>
-                <td>982401884</td>
-                <td>correo123com</td>
+          <tr *ngFor="let item of empresa" >   
+                <td >{{item.nombre}}</td> 
+                <td>{{item.ruc}}</td>
+                <td>{{item.direccion}}</td>
+                <td>{{item.telefono}}</td>
+                <td>{{item.correo}}</td>
                 
                 <th class="text-center"> <button class="btn btn-warning" >Actualizar</button></th>
                 <th class="text-center"><button class=" btn btn-danger text-center">Eliminar</button></th>
