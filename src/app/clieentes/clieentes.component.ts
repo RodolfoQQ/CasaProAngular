@@ -12,11 +12,4 @@ import { ClienteServiceService } from './service/cliente.service.service';
 })
 export class ClieentesComponent {
 
-  //constructor(private clienteEmpresaService:ClienteServiceService){}
-
-/*
-  ngOnInit(): void {
-//    this.clienteEmpresaService.findall();
-
-  }*/
 }

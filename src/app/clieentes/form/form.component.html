@@ -9,28 +9,28 @@
             <div  *ngIf="habilitado; else nothabilitado">
                 <h6>Formulario Cliente Persona Juridica</h6>
                 <div>
-                    <form class="form-control text-muted" action="">
+                    <form (ngSubmit)="crear()" class="form-control text-muted" action="">
                 
                     <div class="row m-4">
                                 <div class="col-sm-3">
                                     <div> <label class="text-decoration" >Nombres empresa</label></div>
-                                <div><input class="form-control"  type="text"> </div> 
+                                <div><input class="form-control"  type="text" [(ngModel)]="clienteempresa.nombre" name="nombre"> </div> 
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="ruc">Ruc</label>
-                                    <input class="form-control"  type="text">
+                                    <input class="form-control" [(ngModel)]="clienteempresa.ruc" name="ruc" type="text">
                                 </div>
                                 <div class="col-sm-3">
                                     <label for="direccion">Direccion</label>
-                                    <input class="form-control"  type="text">
+                                    <input class="form-control" [(ngModel)]="clienteempresa.direccion" name="direccion"  type="text">
                                 </div>
                     </div> 
 
                         <div class="row m-4">
                             <div class="col-sm-3">  <label for="telefono">Telefono</label>
-                            <input class="form-control"  type="text"></div>
+                            <input class="form-control"  [(ngModel)]="clienteempresa.telefono" name="telefono" type="text"></div>
                             <div class="col-sm-3">  <label for="Correo">Correo</label>
-                                <input class="form-control"  type="text">
+                                <input class="form-control" [(ngModel)]="clienteempresa.telefono" name="correo" type="text">
                             </div>
                         
                         </div>
@@ -123,12 +123,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="">   
-                <td class="">Rodolfo</td> 
-                <td>Quispe</td>
-                <td>47004773</td>
-                <td>982401884</td>
-                <td>correo123com</td>
+            <tr *ngFor="let item of persona">   
+                <td>{{item.nombre}}</td> 
+                <td>{{item.apellido}}</td>
+                <td>{{item.dni}}</td>
+                <td>{{item.telefono}}</td>
+                <td>{{item.correo}}</td>
                 
                 <th class="text-center"> <button class="btn btn-warning" >Actualizar</button></th>
                 <th class="text-center"><button class=" btn btn-danger text-center">Eliminar</button></th>
