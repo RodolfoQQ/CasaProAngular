@@ -3,13 +3,14 @@
     <div class="row align-items-center ">
 
         <button class="btn btn-success  col-sm-3 m-3" (click)="setHabiliar()">
+            
         {{habilitado? 'Cambiar a Persona ':'Cambiar a Empresa'}}
         </button>
 
             <div  *ngIf="habilitado; else nothabilitado">
-                <h6>Formulario Cliente Persona Juridica</h6>
+                <h6>Formulario Cliente Persona Juridica o Empresa</h6>
                 <div>
-                    <form (ngSubmit)="crear()" class="form-control text-muted" action="">
+             <form (ngSubmit)="crearCliempresa()" class="form-control text-muted">
                 
                     <div class="row m-4">
                                 <div class="col-sm-3">
@@ -30,44 +31,18 @@
                             <div class="col-sm-3">  <label for="telefono">Telefono</label>
                             <input class="form-control"  [(ngModel)]="clienteempresa.telefono" name="telefono" type="text"></div>
                             <div class="col-sm-3">  <label for="Correo">Correo</label>
-                                <input class="form-control" [(ngModel)]="clienteempresa.telefono" name="correo" type="text">
+                                <input class="form-control" [(ngModel)]="clienteempresa.correo" name="correo" type="text">
                             </div>
                         
                         </div>
-                        <div class="mx-4"><button class="btn btn-success" >Guardar</button></div>
+                        <div class="mx-4"><button class="btn btn-success" >{{clienteempresa.codEmpresa>0?'Actualizar':'agregar'}}</button></div>
                         
                     </form>
                 </div>
             
-                          
-<div class="my-4">
-    <table class="table table-hover table-rounded table-bordered">  
-        <thead>
-            <tr class="">   
-                <th class="text-muted">Nombres empresa</th> 
-                <th class="text-muted">Ruc</th> 
-                <th class="text-muted">direccion</th> 
-                <th class="text-muted">Telf</th>
-                <th class="text-muted">Correo</th>
-                <th class="text-center" colspan="2">Acciones</th>
-               
-            </tr>
-        </thead>
-        
-        <tbody>
-          <tr *ngFor="let item of empresa" >   
-                <td >{{item.nombre}}</td> 
-                <td>{{item.ruc}}</td>
-                <td>{{item.direccion}}</td>
-                <td>{{item.telefono}}</td>
-                <td>{{item.correo}}</td>
+
                 
-                <th class="text-center"> <button class="btn btn-warning" >Actualizar</button></th>
-                <th class="text-center"><button class=" btn btn-danger text-center">Eliminar</button></th>
-            </tr>
-        </tbody>
-    </table>
-</div>
+  
 
                     
             </div> 
@@ -108,34 +83,7 @@
                         </form>
                     </div>
                 
-            
-<div class="my-4">
-    <table class="table table-hover table-rounded table-bordered">  
-        <thead>
-            <tr class="">   
-                <th class="text-muted">Nombres</th> 
-                <th class="text-muted">Apellidos</th> 
-                <th class="text-muted">DNI</th> 
-                <th class="text-muted">Telf</th>
-                <th class="text-muted">Correo</th>
-                <th class="text-center" colspan="2">Acciones</th>
-               
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of persona">   
-                <td>{{item.nombre}}</td> 
-                <td>{{item.apellido}}</td>
-                <td>{{item.dni}}</td>
-                <td>{{item.telefono}}</td>
-                <td>{{item.correo}}</td>
-                
-                <th class="text-center"> <button class="btn btn-warning" >Actualizar</button></th>
-                <th class="text-center"><button class=" btn btn-danger text-center">Eliminar</button></th>
-            </tr>
-        </tbody>
-    </table>
-</div>
+ 
                     
             </div> 
         </ng-template>
