@@ -1,7 +1,8 @@
 
-<app-form (nuevoClienteEmpresa)="addClienteEmpresa($event)"  [clienteempresa]="empresaSelected"
-
-(cambiohabilitartabla)="onMostrarTabla($event)"
+<app-form
+ (nuevoClienteEmpresa)="addClienteEmpresa($event)"[clienteempresa]="empresaSelected"
+ (cambiohabilitartabla)="onMostrarTabla($event)"
+ (personaNew)="addpersontotabla($event)" [personas]="personaSeled"
 ></app-form>
 
    <div *ngIf="tablaEmpresa;else tablaPersona">
@@ -56,20 +57,22 @@
                 <th class="text-muted">DNI</th> 
                 <th class="text-muted">Telf</th>
                 <th class="text-muted">Correo</th>
+                <th class="text-muted">direccion</th>
                 <th class="text-center" colspan="2">Acciones</th>
                
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of persona">   
+            <tr *ngFor="let item of personas">   
                 <td>{{item.nombre}}</td> 
-                <td>{{item.apellido}}</td>
+                <td>{{item.apellidos}}</td>
                 <td>{{item.dni}}</td>
                 <td>{{item.telefono}}</td>
                 <td>{{item.correo}}</td>
+                <td>{{item.direccion}}</td>
                 
-                <th class="text-center"> <button class="btn btn-warning" >Actualizar</button></th>
-                <th class="text-center"><button class=" btn btn-danger text-center">Eliminar</button></th>
+                <th class="text-center"> <button class="btn btn-warning"(click)="onUpdateClientePersona(item)" >Actualizar</button></th>
+                <th class="text-center"><button class=" btn btn-danger text-center" (click)="onDeletedRow(item.codpersona)" >Eliminar</button></th>
             </tr>
         </tbody>
     </table>

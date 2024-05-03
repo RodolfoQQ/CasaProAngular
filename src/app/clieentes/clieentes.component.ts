@@ -4,6 +4,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { ClienteServiceService } from './service/cliente.service.service';
 import { Cliente } from './models/cliente';
 import { ClientePersona } from './models/clientePersona';
+import { PersonaServiceService } from './service/persona-service.service';
 
 @Component({
   selector: 'app-clieentes',
@@ -17,19 +18,19 @@ export class ClieentesComponent {
 
   empresas: Cliente[]=[];
 
-
- empresaSelected: Cliente=new Cliente();
-  
+  personaSeled: ClientePersona=new ClientePersona();
+  empresaSelected: Cliente=new Cliente();
+  personanew:ClientePersona=new ClientePersona();
   tablaEmpresa: boolean=false;
 
-  persona: ClientePersona[]=[];
+  personas: ClientePersona[]=[];
 
-  constructor(private service:ClienteServiceService, ){}
+  constructor(private service:ClienteServiceService, private servicePersona:PersonaServiceService){}
 
     ngOnInit(): void {
       //this.service.findallOf().subscribe(dataof =>this.empresas=dataof)
       this.service.findall().subscribe(data =>this.empresas=data)
-
+      this.servicePersona.findallPersonas().subscribe(data=>this.personas=data)
       
     }
 
@@ -76,9 +77,57 @@ export class ClieentesComponent {
        //this.empresas=this.empresas.filter(data=>data.codEmpresa !=cod)//
        this.service.findall().subscribe(data => {this.empresas = data});
       })
+    }
+
+//aqui empieza el consumo del servicio persona//////////////////////////////////////////////////////////////////////////////
+
+    addpersontotabla(data:ClientePersona){
+
+      if(data.codpersona>0){
+        
+        this.servicePersona.updatePersona(data).subscribe(persnew=>{
+        
+            this.personas=this.personas.map(pers=>{
+
+                      if(pers.codpersona==data.codpersona){
+                        return { ...persnew}
+                      }
+                      return pers
+                    })
+
+        })
+        
+       
+      }
+      else{
+            this.servicePersona.guardarPersona(data).subscribe((()=>{
+
+              this.servicePersona.findallPersonas().subscribe(data=>{this.personas=data})
+
+            }))
+    //  this.personas=[... this.personas,{ ... data, codpersona:new Date().getTime()}]
+      }
+
+      this.personaSeled = new ClientePersona();
+
+    }
+    onUpdateClientePersona(datarow:ClientePersona){
+      //this.personaSeled=this.personaSeled=datarow
+
+      this.personaSeled={...datarow}
 
     }
 
+    onDeletedRow(codPersona:number){
+      this.servicePersona.deletePersonabyId(codPersona).subscribe(()=>{
+        this.servicePersona.findallPersonas().subscribe(data=>{this.personas=data})
+      })
+        
+    }
+
+
+
+    
 
 
 

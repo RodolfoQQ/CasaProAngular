@@ -17,8 +17,21 @@ import { FormsModule } from '@angular/forms';
 })
 export class FormComponent {
 
-  //  public clienteempresa: Cliente= new Cliente();
-    public clientepersona: ClientePersona= new ClientePersona();
+
+    //public clientepersona: ClientePersona= new ClientePersona();
+
+       @Input() personas:ClientePersona={
+        codpersona:0,
+        nombre:'',
+        apellidos:'',
+        dni:'',
+        direccion:'',
+      telefono:'',
+      correo:''
+      }
+
+
+
      @Input() clienteempresa:Cliente={
       codEmpresa:0,
       nombre:'',
@@ -55,6 +68,15 @@ export class FormComponent {
         console.log( this.clienteempresa)
 
         
+    }
+
+    
+    @Output() personaNew=new EventEmitter();
+    guardardPersona(){
+
+      this.personaNew.emit(this.personas);
+      console.log(this.personas)
+      
     }
 
   
