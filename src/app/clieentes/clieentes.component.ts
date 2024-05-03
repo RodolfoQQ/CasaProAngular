@@ -12,20 +12,25 @@ import { ClientePersona } from './models/clientePersona';
   templateUrl: './clieentes.component.html',
   styleUrl: './clieentes.component.css'
 })
+
 export class ClieentesComponent {
 
   empresas: Cliente[]=[];
-  empresaSelected: Cliente=new Cliente();
+
+
+ empresaSelected: Cliente=new Cliente();
   
   tablaEmpresa: boolean=false;
 
   persona: ClientePersona[]=[];
 
-  constructor(private service:ClienteServiceService){}
-    ngOnInit(): void {
-      
-      this.service.findall().subscribe(data=>this.empresas=data)
+  constructor(private service:ClienteServiceService, ){}
 
+    ngOnInit(): void {
+      //this.service.findallOf().subscribe(dataof =>this.empresas=dataof)
+      this.service.findall().subscribe(data =>this.empresas=data)
+
+      
     }
 
     onMostrarTabla(mostrar:boolean){
@@ -37,26 +42,51 @@ export class ClieentesComponent {
 
     }
 
+    addClienteEmpresa(data: Cliente): void {
 
-    addClienteEmpresa(data:Cliente):void{
-      if(data.codEmpresa>0){
-          this.empresas=this.empresas.map(empr=>{
-            if(empr.codEmpresa==data.codEmpresa){
-                return{... data}
+      if (data.codEmpresa > 0) {
+    
+        this.service.update(data).subscribe(empresaUpdate => {
+    
+          this.empresas = this.empresas.map(empr => {
+            if (empr.codEmpresa == data.codEmpresa) {
+              return { ...empresaUpdate };
             }
             return empr;
-          })
-      }else{
+          });
+    
+        });
+    
+      } else {
+        this.service.create(data).subscribe(() => {
 
-        this.empresas= [... this.empresas, {... data, codEmpresa:new Date().getTime()}];
+          // Después de agregar un nuevo cliente, refrescamos la lista desde el backend
+          this.service.findall().subscribe(data => {this.empresas = data});
+    
+        });
+    
       }
-      this.empresaSelected= new Cliente();
       
+      // Actualizar la vista después de agregar o actualizar un cliente
+      this.empresaSelected = new Cliente();
+    }
+
+    onDelete(cod:number):void{
+      this.service.deleted(cod).subscribe(()=>{
+       //this.empresas=this.empresas.filter(data=>data.codEmpresa !=cod)//
+       this.service.findall().subscribe(data => {this.empresas = data});
+      })
 
     }
-    onDelete(cod:number):void{
-      this.empresas=this.empresas.filter(data=>data.codEmpresa !=cod)
-    }
+
+
+
+
+
+    
+
+
+
 
       
 

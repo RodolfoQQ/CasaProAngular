@@ -38,6 +38,7 @@ export class FormComponent {
     this.habilitado=this.habilitado? false: true;
     
     //cambiade tabla de cliente
+    
     //esta es otra opcion al operador ternario
    // this.habilitartabla =! this.habilitartabla
    
