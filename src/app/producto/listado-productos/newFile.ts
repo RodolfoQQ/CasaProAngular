@@ -1,1 +1,0 @@
-sessionStorage.setItem('miVariable', true);

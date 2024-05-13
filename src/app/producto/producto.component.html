@@ -1,4 +1,34 @@
 
-<app-form-producto></app-form-producto>
+<app-form-producto
+ 
+ [producto]="productoSelected"
+ ></app-form-producto>
 
-<app-listado-productos></app-listado-productos>
+|<div  id="listadoProductos" class="my-4 container">
+    <table class="table table-hover">  
+        <thead>
+            <tr class="">   
+                <th class="text-muted"> Cod Prodcto</th> 
+                <th class="text-muted">Nombre de producto<th> 
+                <th class="text-muted">Categoria</th> 
+                <th class="text-muted"><button class="btn btn-light"></button></th> 
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of productos; track $index) {
+                    <tr class="">   
+                                <td class="text-muted">{{item.codProducto}}</td> 
+                                <td class="text-muted">{{item.nombreProducto}}</td> 
+                                <td class="text-muted">{{item.categoria.nombrCategoria}}</td> 
+                                <div>
+                                       <td class="text-muted"><button class="btn btn-warning" (click)="onSelectProducto(item)">Editar</button></td> 
+                                       <td class="text-muted"><button class="btn btn-danger" (click)="deletedOne(item.codProducto)">Eliminar</button></td> 
+
+                                </div>
+                                </tr>   
+            }
+            
+        </tbody>
+
+    </table>
+</div>

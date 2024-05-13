@@ -1,1 +1,62 @@
-<app-form-pedido></app-form-pedido>
+<div class="d-flex justify-content-center " > 
+    <div class=" col-4">
+        <app-form-pedido  (clienteOuputEmiter)="mostracliente($event)"></app-form-pedido>
+    </div>
+    
+
+    <div class="card col-6  my-5" >
+
+        <div class=" ">
+           
+                
+            <table class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th> 
+                            <th>descripcion</th>
+                            <th>cant por mayor</th>
+                            <th>unidad</th>
+                            <th>total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr >
+                            <td>1</td>
+                            <td>alicate</td>
+                            <td>marca patito color rojo </td>
+                            <td><input class="col-sm-7"  type="number"><button mat-icon-button color="primary" (click)="detalleporMayor= (detalleporMayor==true)? false:true;  "><mat-icon>visibility</mat-icon></button>
+                            </td>
+                            
+                        
+                            <td><input class="col-sm-4"  type="number"></td>
+                            <td>120 unidades</td>
+                            <td><button mat-icon-button color="warn" class="mat-icon-button-sm">
+                                <mat-icon>deleted</mat-icon>
+                                </button>
+                            </td>
+                            </tr>
+                        
+                                <tr>
+                                    <td *ngIf="detalleporMayor">hola</td>
+                                    </tr>                                                
+        
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <button mat-icon-button>
+                        <mat-icon class="mat-icon-lg" >save</mat-icon>
+                    
+                    </button>
+                   
+                </div>
+        </div>
+
+</div>
+    
+</div>
+
+
+
+
