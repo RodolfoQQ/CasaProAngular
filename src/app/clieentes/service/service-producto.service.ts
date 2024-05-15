@@ -27,5 +27,9 @@ export class ServiceProductoService {
   deletebyidProducto(codProducto:number):Observable<void>{
       return this.http.delete<void>(`${this.url}/${codProducto}`)
   }
+  
+  filtrarProductos(term:string):Observable<Producto[]>{
+    return this.http.get<Producto[]>(`${this.url}/filtrar/${term}`)
+  }
 
 }

@@ -14,8 +14,7 @@ import { Cliente } from '../clieentes/models/cliente';
   styleUrl: './pedido.component.css'
 })
 export class PedidoComponent {
-  detalleporMayor:boolean=true;
-  
+ 
   
   cliente:Cliente =new Cliente();
   
