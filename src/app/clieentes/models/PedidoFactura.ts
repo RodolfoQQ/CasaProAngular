@@ -6,6 +6,5 @@ export class PedidoFactura{
     fecha!:string
     clientePersona!:ClientePersona
     rowPedidos: Array<RowPedido>=[]
-
-
+    
 }

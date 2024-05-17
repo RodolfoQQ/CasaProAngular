@@ -31,6 +31,7 @@
                 </form>
             </div>
             <div>
+
                 <div class="container card p-2">
 
                     <button mat-stroked-button color="primary" type="button" name="selecciondeenvio" id="entrega1"
@@ -68,12 +69,22 @@
                 </div>
             </div>
         </div>
+        <form>
+            <div>
+                <div class="card mx-5 ">
+                    @if (clientePersona.codpersona) {
+                    <div class="card-header bg-success text-white">{{clientePersona.nombre}}   <input [(ngModel)]="pedidoFactura.fecha" name="fecha" class="form-control" type="date"></div>
+                      
+                    }
+                    @else if (clienteEmpresa.codEmpresa) {
+                    <div class="card-header bg-primary text-white">{{clienteEmpresa.nombre}}</div>
+                    <input type="text">
+                    }
 
-        <div>
-            <div class="card mx-5 ">
-                <ng-container *ngIf="clienteCod>0; else elseTemplate">
+
+                    <!--  <ng-container *ngIf="clienteCod>0; else elseTemplate">
                     <div class="alert alert-success fomr-group d-flex">
-                        <input disabled class="formControl" [value]="clienteCod" name="nombre" type="text"
+                        <input disabled class="formControl" [(ngModel)]="pedidoFactura.clientePersona.codpersona" value="clienteCod" name="nombre" type="text"
                             placeholder="empresa">
                         <input disabled class="form-control" [value]="nombreCliente" type="text">
                         <button (click)="opendialogSendToAdrees()" mat-button>
@@ -83,59 +94,60 @@
                 </ng-container>
                 <ng-template #elseTemplate>
                     <div class="alert alert-danger">No se agrego ningun cliente</div>
-                </ng-template>
+                </ng-template>-->
 
 
 
-                <table class="table table-hover ">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Categoria</th>
-                            <th>descripcion</th>
-                            <th>cant.mayor</th>
-                            <th>Sub total</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (item of pedidoFactura.rowPedidos; track $index) {
-                        <tr>
-                            <td>{{item.producto.nombreProducto}}</td>
-                            <td>{{item.producto.categoria.nombrCategoria}}</td>
-                            <td>{{item.producto.descripcion}}</td>
-                            <td colspan="2">
-                                <div class="col-sm-5">
-                                    <input type="number" class="form-control" [(ngModel)]="item.cantidad"
-                                        name="cantidadPorMayor" min="1" [value]="item.cantidad">
-                                </div>
+                    <table class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoria</th>
+                                <th>descripcion</th>
+                                <th>cant.mayor</th>
+                                <th>Sub total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of pedidoFactura.rowPedidos; track $index) {
+                            <tr>
+                                <td>{{item.producto.nombreProducto}}</td>
+                                <td>{{item.producto.categoria.nombrCategoria}}</td>
+                                <td>{{item.producto.descripcion}}</td>
+                                <td colspan="2">
+                                    <div class="col-sm-5">
+                                        <input type="number" class="form-control"  [(ngModel)]="item.cantidad" 
+                                            name="cantidadPorMayor" min="1" >
+                                    </div>
 
-                            </td>
+                                </td>
 
-                            <td>
-                                <button mat-icon-button color="warn" class="mat-icon-button-sm" (click)="deletedRow(item.producto.nombreProducto)">
-                                    <mat-icon>deleted</mat-icon>
-                                </button>
-                            </td>
-                        </tr>
-                        }
+                                <td>
+                                    <button mat-icon-button color="warn" class="mat-icon-button-sm"
+                                        (click)="deletedRow(item.producto.nombreProducto)">
+                                        <mat-icon>deleted</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                            }
 
-                    </tbody>
-                </table>
-                <div class="d-flex justify-content-end ">
-                    <div class="card m-2 p-2">
-                        <div class="d-flex">
-                            Total: <span>1586</span>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end ">
+                        <div class="card m-2 p-2">
+                            <div class="d-flex">
+                                Total: <span>1586</span>
+                            </div>
+                            <button mat-icon-button (click)="guardarpedido()">
+                                <mat-icon class="mat-icon-lg">save</mat-icon>
+                            </button>
+
                         </div>
-                        <button mat-icon-button>
-                            <mat-icon class="mat-icon-lg">save</mat-icon>
-                        </button>
-
                     </div>
                 </div>
             </div>
-        </div>
-
+        </form>
     </div>
 
 

@@ -5,7 +5,7 @@ export class RowPedido{
     codPedido!:number
     cantidad!:number
     producto!:Producto
-    cantidadPorMayor!:number
+    
     
     
 }
