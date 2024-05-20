@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="alert alert-info my-5">Listado pedidos a recoger en tienda</div>
+    <div class="m-5">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>cod</th>
+                    <th>fecha</th>
+                    <th>cliente</th>
+                    <th>DNI</th>
+                    
+                </tr>
+            </thead>
+                <tbody>
+                    @for (item of pedidos; track $index) {
+                      <tr>
+                        <td>{{item.codPedido}}</td>
+                        <td>{{item.fecha}}</td>
+                        <td>{{item.clientePersona.nombre}}</td>
+                        <td>{{item.clientePersona.dni}}</td>
+                        <td>
+                            <button mat-button (click)="openDialog(item.codPedido)" > <mat-icon color="success">book</mat-icon> </button>
+                        </td>
+                        <td><button mat-button>
+                            <mat-icon>delete</mat-icon>
+                        </button></td>
+                    </tr>  
+                    }
+                    
+                </tbody>
+    
+        </table>
+    
+    
+    </div>
+    
+</div>

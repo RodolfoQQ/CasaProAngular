@@ -21,6 +21,8 @@ import { Producto } from '../../clieentes/models/Productos';
 import { RowPedido } from '../../clieentes/models/RowPedido';
 import { PedidoFactura } from '../../clieentes/models/PedidoFactura';
 import { ServicePedidoFacturaService } from '../../clieentes/service/service-pedido-factura.service';
+import Swal from 'sweetalert2';
+import { TipoEntrega } from '../../clieentes/models/TipoEntrega';
 
 @Component({
   selector: 'app-form-pedido',
@@ -34,7 +36,7 @@ import { ServicePedidoFacturaService } from '../../clieentes/service/service-ped
 })
 export class FormPedidoComponent {
   accion: string = "accciones";
-  habilitarDireccion: boolean = true;
+  habilitarDireccion!: boolean;
   detalleporMayor: boolean = true;
 
   //declaraciones para encontrar cliente de tipo persona o empresa
@@ -43,7 +45,9 @@ export class FormPedidoComponent {
   clientePersona: ClientePersona = new ClientePersona;
   clienteCod: any;
   nombreCliente: string = "";
-
+  showTable: boolean = false
+  showCliente: boolean = false;
+  
   //decalraciones para el autocomple
   autocompleteControl = new FormControl();
   // productos: string[] = ['One', 'Two', 'Three'];
@@ -51,16 +55,22 @@ export class FormPedidoComponent {
 
   pedidoFactura: PedidoFactura = new PedidoFactura();
 
+  
+
+
+
 
   constructor(private servicePersona: PersonaServiceService,
     public dialog: MatDialog,
     private serviceempresa: ClienteServiceService,
     private productoservice: ServiceProductoService,
-    private servicePedidoFactura: ServicePedidoFacturaService
+    private servicePedidoFactura: ServicePedidoFacturaService,
 
   ) {
+    this.pedidoFactura.tipoEntrega= new TipoEntrega();
     this.pedidoFactura.clientePersona = new ClientePersona();
-
+    
+    
   }
 
 
@@ -98,21 +108,28 @@ export class FormPedidoComponent {
 
   selectedProducto(event: MatAutocompleteSelectedEvent): void {
     let producto = event.option.value as Producto;
+    this.showTable = true;
 
-    let productoExistente = this.pedidoFactura.rowPedidos.find(data => data.producto.nombreProducto === producto.nombreProducto);
 
-    if (productoExistente) {
-      // Si el producto ya existe en la lista, aumenta su cantidad en 1
-      productoExistente.cantidad++;
+    if (this.findProdInListPedido(producto.nombreProducto)) {
+      console.log(producto.nombreProducto)
+
+      Swal.fire({
+        title: 'El producto ya se encuentra agregado en tu lista, Aumente la cantidad',
+        timer: 3000
+      })
+
 
     } else {
-      // Si el producto no existe en la lista, agrégalo con cantidad 1
       let nuevoRowdeProducto = new RowPedido();
+
+     
       nuevoRowdeProducto.producto = producto;
       nuevoRowdeProducto.cantidad = 1; // Establece la cantidad inicial en 1
-      
 
       this.pedidoFactura.rowPedidos.push(nuevoRowdeProducto);
+
+
     }
 
     // Luego de añadir el producto a la lista, cambia el valor que está en el input del autocompletado a vacío
@@ -122,9 +139,26 @@ export class FormPedidoComponent {
   }
 
 
+  //mediante un parametro numerico consulta si ya se encuentra en la lista si existe devuelve true
+  findProdInListPedido(nombre: string): boolean {
+    let existe: boolean = false;
+    this.pedidoFactura.rowPedidos.forEach((row: RowPedido) => {
+      if (nombre === row.producto.nombreProducto) {
+        console.log("el producto ya existe en la lista")
+        existe = true;
+      }
+    })
+    return existe;
+  }
+
+  
+
   findCliente() {
+    this.showCliente = true;
+    
     //si tiene 8 digitos o menoos es dni por lo tanto limpia el input donde se muestra la empresa y prepara para mostrar el nombre de persona
     if (this.rucODni.length <= 8) {
+      this.habilitarDireccion=false
       this.clienteEmpresa.nombre = "";
       this.clienteEmpresa.codEmpresa = 0
       this.servicePersona.findbyDni(this.rucODni).subscribe(
@@ -138,6 +172,7 @@ export class FormPedidoComponent {
       )
       //si no si  hace lo contrario
     } else if (this.rucODni.length >= 8) {
+      this.habilitarDireccion=true
       this.clientePersona.nombre = "";
       this.clientePersona.codpersona = 0
       this.serviceempresa.findbyRuc(this.rucODni).subscribe(
@@ -151,42 +186,34 @@ export class FormPedidoComponent {
   }
 
 
-  /*@Output() clienteOuputEmiter=new EventEmitter<any>();
-  //metodo q encuentra un cliente de tipo persona o empresa y lo envia en un tipo any para usar solo un html
-  findCliente(){
-    if(this.rucODni.length>9){
-      this.serviceempresa.findbyRuc(this.rucODni).subscribe(
-      (data:Cliente)=>{
-      this.clienteEmpresa=data
-      this.clienteCod=this.clienteEmpresa.codEmpresa
-      this.nombreCliente=this.clienteEmpresa.nombre
-      this.clienteOuputEmiter.emit(this.clienteEmpresa)
-       console.log(JSON.stringify(this.clienteEmpresa)+"ingreso a empresa")
-      })
-        }else if(this.rucODni.length <= 9){
-            this.servicePersona.findbyDni(this.rucODni).subscribe(
-              
-              (data:ClientePersona)=>{
-                this.clientePersona=data
-                this.clienteCod=this.clientePersona.codpersona;
-                this.nombreCliente=this.clientePersona.nombre
-                this.clienteOuputEmiter.emit(this.clienteEmpresa)
-                console.log(JSON.stringify(this.clientePersona)+ "ingreso a persona")
-                
-              }
-            )
-          }   
-  }*/
-
   opendialogSendToAdrees() {
     // this.dialog.open()
   }
 
   guardarpedido() {
-    this.pedidoFactura.clientePersona=this.clientePersona
-    this.servicePedidoFactura.savePedido(this.pedidoFactura).subscribe(
-      
-    )
+    this.pedidoFactura.clientePersona = this.clientePersona
+    if (this.showCliente == false) {
+      Swal.fire({
+        title: "Tontin!",
+        text: "Seleccione un cliente",
+        icon: "error",
+      })
+    } else {
+      this.servicePedidoFactura.savePedido(this.pedidoFactura).subscribe(() => {
+        console.log(this.pedidoFactura.tipoEntrega.direccion)
+        this.pedidoFactura=new PedidoFactura()
+        this.pedidoFactura.tipoEntrega=new TipoEntrega();
+        this.pedidoFactura.clientePersona=new ClientePersona();
+        this.showTable=false
+        this.showCliente=false
+        Swal.fire({
+          title: "Casa pro",
+          text: "Operacion exitosa",
+          icon: "success",
+        })
+      })
+    }
+
 
   }
 

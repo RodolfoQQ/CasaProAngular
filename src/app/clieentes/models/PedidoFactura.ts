@@ -1,4 +1,5 @@
 import { RowPedido } from "./RowPedido"
+import { TipoEntrega } from "./TipoEntrega"
 import { ClientePersona } from "./clientePersona"
 
 export class PedidoFactura{
@@ -6,5 +7,5 @@ export class PedidoFactura{
     fecha!:string
     clientePersona!:ClientePersona
     rowPedidos: Array<RowPedido>=[]
-    
+    tipoEntrega!: TipoEntrega  
 }

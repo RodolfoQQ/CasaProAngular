@@ -18,5 +18,15 @@ export class ServicePedidoFacturaService {
     return this.http.post<PedidoFactura>(this.url,pedido);
   }
 
+  findall():Observable<PedidoFactura[]>{
+
+    return this.http.get<PedidoFactura[]>(this.url)
+  }
+  
+  detallePedidos(codPedido:number):Observable<PedidoFactura>{
+    
+    return this.http.get<PedidoFactura>(`${this.url}/${codPedido}`)
+  }
+
 
 }
