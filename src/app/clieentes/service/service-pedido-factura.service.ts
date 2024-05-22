@@ -28,5 +28,8 @@ export class ServicePedidoFacturaService {
     return this.http.get<PedidoFactura>(`${this.url}/${codPedido}`)
   }
 
+  updateEstadoPedido(codPedido:number ,pedido:PedidoFactura):Observable<PedidoFactura>{
+    return this.http.put<PedidoFactura>(`${this.url}/${codPedido}`,pedido)
+  }
 
 }

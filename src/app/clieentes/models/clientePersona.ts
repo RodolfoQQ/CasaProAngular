@@ -1,6 +1,4 @@
 export class ClientePersona{
-
-
       codpersona!: number;
        nombre!: string; 
        apellidos!:string;

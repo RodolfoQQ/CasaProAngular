@@ -6,22 +6,28 @@ import { MatButton } from '@angular/material/button';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { DetallePedidoComponent } from '../detalle-pedido/detalle-pedido.component';
+import { TipoEntrega } from '../clieentes/models/TipoEntrega';
+import { NgIf } from '@angular/common';
+import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-entregapedido',
   standalone: true,
-  imports: [MatIconModule, MatButton,MatButtonModule, MatDialogModule],
+  imports: [MatIconModule, MatButton,MatButtonModule,NgIf, MatDialogModule],
   templateUrl: './entregapedido.component.html',
-  styleUrl: './entregapedido.component.css'
+  styleUrls: ['./entregapedido.component.css','./estilostabla.css']
+ 
 })
 export class EntregapedidoComponent {
   
   //pedidofactura:PedidoFactura=new PedidoFactura();
   pedidos:PedidoFactura[]=[]
   modal:boolean=false;
+  selectedPedido:PedidoFactura =new PedidoFactura();
 
   constructor(private servicePedidoFactura:ServicePedidoFacturaService, public dialog:MatDialog) { 
-    
+  //this.pedidos =TipoEntrega()
   }
 
   ngOnInit(): void {
@@ -30,19 +36,50 @@ export class EntregapedidoComponent {
 
     openDialog(codPedido:number){
       const dialog=this.dialog.open(DetallePedidoComponent,{
-         width:'500px',
+         width:'700px',
          height:'500px',
          data:{codPedido: codPedido}
       });
-        
     }
+
 
     listarPedidos(){
     this.servicePedidoFactura.findall().subscribe(
       data=>{
         this.pedidos=data
+        console.log(data.map(dat=>{
+          return dat.estado.codEstado
+        }))
       }
     )
+  }
+
+
+  //obtiene el valor el array de la tabla y lo asigna al objeto selectedPedido
+  updateEstado(pedidoFactura:PedidoFactura){
+    this.selectedPedido={ ...pedidoFactura}
+    
+    Swal.fire({
+      title: '¿Estás seguro de actualizar el estado pedido?',
+      text: 'No podrás revertir esto',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, Actualizar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+       //recibe el codigo del producto y el cuerpo
+        this.servicePedidoFactura.updateEstadoPedido(pedidoFactura.codPedido,this.selectedPedido).subscribe(()=>{
+          this.listarPedidos()
+          
+        })
+    
+      }
+    });
+
+    
+  
   }
     
 

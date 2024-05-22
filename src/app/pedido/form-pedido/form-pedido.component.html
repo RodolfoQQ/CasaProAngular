@@ -37,53 +37,19 @@
 
             <div>
 
-                <div class="container card p-2">
-
-                <button mat-stroked-button color="primary" type="button" name="selecciondeenvio" id="entrega1"
-                        (click)="habilitarDireccion = (habilitarDireccion==false)? true:false;">{{habilitarDireccion==true?'Entrega
-                        a domicilio':'Entrega en tienda'}}
-                        <mat-icon>car</mat-icon>
-                    </button>
-
-                    <div class=" my-2" *ngIf="habilitarDireccion==true">
-                        <div class="my-2">
-                            <div>
-                                <input [(ngModel)]="pedidoFactura.tipoEntrega.direccion" name="direccion" class="form-control" type="text" placeholder="Direccion">  
-                            </div>
-                            <div class="my-4 ">
-                                <input [(ngModel)]="pedidoFactura.tipoEntrega.distrito" name="distrito" class="form-control" type="text" placeholder="Distrito">
-                            </div>
-
-                        </div>
-                        <div class="my-4">
-                            <input [(ngModel)]="pedidoFactura.tipoEntrega.telefonoreferencia" name="telefonoreferencia" class="form-control" type="text" placeholder="Teleofno de referencia">
-                        </div>
-                        <div class="my-4">
-                            <input [(ngModel)]="pedidoFactura.tipoEntrega.personarecepcion" name="personarecepcion" class="form-control" type="text" placeholder="Persona que recepciona">
-                        </div>
-                        <div class="my-4">
-                            <input [(ngModel)]="pedidoFactura.tipoEntrega.parentesco" name="parentesco" class="form-control" type="text" placeholder="Parentesco">
-                        </div>
-                    </div>
-
-                    <div class="" *ngIf="habilitarDireccion==false">
-                        <input class="form-control" type="text" placeholder="Recojo en tienda con DNI "
-                            disabled>
-
-                    </div>
-                </div>
+               
             </div>
             <div>
                 <div class="card mx-5 ">
-                    <div *ngIf="showCliente; else esleTemplateCliente "> @if (clientePersona.codpersona) {
-                            <div class="card-header bg-success text-white">{{clientePersona.nombre}} </div>
-
-                        }
-                        @else if (clienteEmpresa.codEmpresa) {
-                        <div class="card-header bg-primary text-white">{{clienteEmpresa.nombre}}</div>
-                        <input type="text">
-                        }
+                    <div *ngIf="showCliente; else esleTemplateCliente ">  
+                            <div class="card-header bg-success text-white d-flex justify-content-between">
+                                <div>{{clientePersona.nombre}}</div>
+                                <div ><button mat-icon-button (click)="openDireccion(pedidoFactura)">
+                                    <mat-icon>local_shipping</mat-icon>
+                                </button></div>
+                           </div>
                     </div>
+
                     <ng-template #esleTemplateCliente >
                         <div class="alert alert-primary" role="alert">
                             <strong> ingrese un cliente!</strong> 

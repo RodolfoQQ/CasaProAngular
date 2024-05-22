@@ -2,6 +2,13 @@
     <div class="alert alert-info">
        <h5>nombre del cliente : <br>{{pedido.clientePersona.nombre}}</h5>
        <h5>DNI: {{pedido.clientePersona.dni}}</h5>
+       @if (pedido.tipoEntrega.direccion) { 
+        <h5>Direcion: {{pedido.tipoEntrega.direccion}}</h5>
+        
+        } @else {
+            <p>Entrea en tienda con DNI</p>
+        }
+       
     </div>
     <mat-dialog-content >
   <table class="table table-hover">

@@ -10,7 +10,7 @@ import { ClienteServiceService } from '../../clieentes/service/cliente.service.s
 import { PersonaServiceService } from '../../clieentes/service/persona-service.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { flatMap, map, mergeMap, startWith, switchMap } from 'rxjs/operators';
 import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -23,21 +23,22 @@ import { PedidoFactura } from '../../clieentes/models/PedidoFactura';
 import { ServicePedidoFacturaService } from '../../clieentes/service/service-pedido-factura.service';
 import Swal from 'sweetalert2';
 import { TipoEntrega } from '../../clieentes/models/TipoEntrega';
+import { FrmEntregaDireccionComponent } from '../../pedido/form-pedido/frm-entrega-direccion.component';
 
 @Component({
   selector: 'app-form-pedido',
   standalone: true,
   imports: [NgFor, NgIf, MatButtonModule, MatIconModule, MatDialogModule, FormsModule,
     MatFormFieldModule, MatInputModule, MatAutocompleteModule, ReactiveFormsModule, AsyncPipe,
-    MatFormFieldModule
+    MatFormFieldModule, FrmEntregaDireccionComponent
   ],
   templateUrl: './form-pedido.component.html',
   styleUrl: './form-pedido.component.css'
 })
 export class FormPedidoComponent {
   accion: string = "accciones";
-  habilitarDireccion!: boolean;
-  detalleporMayor: boolean = true;
+  //habilitarDireccion!: boolean;
+  //detalleporMayor: boolean = true;
 
   //declaraciones para encontrar cliente de tipo persona o empresa
   rucODni!: string;
@@ -45,20 +46,16 @@ export class FormPedidoComponent {
   clientePersona: ClientePersona = new ClientePersona;
   clienteCod: any;
   nombreCliente: string = "";
+  //decalracion para mostrar tabla y nombre del cliente
   showTable: boolean = false
   showCliente: boolean = false;
-  
+
   //decalraciones para el autocomple
   autocompleteControl = new FormControl();
   // productos: string[] = ['One', 'Two', 'Three'];
   productosFiltrados!: Observable<Producto[]>;
 
   pedidoFactura: PedidoFactura = new PedidoFactura();
-
-  
-
-
-
 
   constructor(private servicePersona: PersonaServiceService,
     public dialog: MatDialog,
@@ -67,10 +64,10 @@ export class FormPedidoComponent {
     private servicePedidoFactura: ServicePedidoFacturaService,
 
   ) {
-    this.pedidoFactura.tipoEntrega= new TipoEntrega();
+    this.pedidoFactura.tipoEntrega = new TipoEntrega();
     this.pedidoFactura.clientePersona = new ClientePersona();
-    
-    
+
+
   }
 
 
@@ -83,9 +80,6 @@ export class FormPedidoComponent {
       .pipe(
         map(value => typeof value == 'string' ? value : value.nombreProducto),
         switchMap(value => value ? this._filter(value) : [])
-
-
-
       );
   }
 
@@ -118,20 +112,12 @@ export class FormPedidoComponent {
         title: 'El producto ya se encuentra agregado en tu lista, Aumente la cantidad',
         timer: 3000
       })
-
-
     } else {
       let nuevoRowdeProducto = new RowPedido();
-
-     
       nuevoRowdeProducto.producto = producto;
       nuevoRowdeProducto.cantidad = 1; // Establece la cantidad inicial en 1
-
       this.pedidoFactura.rowPedidos.push(nuevoRowdeProducto);
-
-
     }
-
     // Luego de añadir el producto a la lista, cambia el valor que está en el input del autocompletado a vacío
     this.autocompleteControl.setValue('');
     event.option.focus();
@@ -151,16 +137,16 @@ export class FormPedidoComponent {
     return existe;
   }
 
-  
+
 
   findCliente() {
     this.showCliente = true;
-    
+
     //si tiene 8 digitos o menoos es dni por lo tanto limpia el input donde se muestra la empresa y prepara para mostrar el nombre de persona
     if (this.rucODni.length <= 8) {
-      this.habilitarDireccion=false
-      this.clienteEmpresa.nombre = "";
-      this.clienteEmpresa.codEmpresa = 0
+
+     // this.clienteEmpresa.nombre = "";
+     // this.clienteEmpresa.codEmpresa = 0
       this.servicePersona.findbyDni(this.rucODni).subscribe(
         data => {
           this.clientePersona = data;
@@ -172,7 +158,7 @@ export class FormPedidoComponent {
       )
       //si no si  hace lo contrario
     } else if (this.rucODni.length >= 8) {
-      this.habilitarDireccion=true
+
       this.clientePersona.nombre = "";
       this.clientePersona.codpersona = 0
       this.serviceempresa.findbyRuc(this.rucODni).subscribe(
@@ -185,9 +171,16 @@ export class FormPedidoComponent {
     }
   }
 
+  //abre el dialog direcion y envia la variable pedidofactura
+  //para poder obtener los bingids
+  openDireccion(dataTosendDialog: PedidoFactura) {
+    this.pedidoFactura = dataTosendDialog
+    const dialog = this.dialog.open(FrmEntregaDireccionComponent, {
+      width: "500px",
+      height: "500px",
+      data: { dataBinding: this.pedidoFactura }
+    })
 
-  opendialogSendToAdrees() {
-    // this.dialog.open()
   }
 
   guardarpedido() {
@@ -201,11 +194,11 @@ export class FormPedidoComponent {
     } else {
       this.servicePedidoFactura.savePedido(this.pedidoFactura).subscribe(() => {
         console.log(this.pedidoFactura.tipoEntrega.direccion)
-        this.pedidoFactura=new PedidoFactura()
-        this.pedidoFactura.tipoEntrega=new TipoEntrega();
-        this.pedidoFactura.clientePersona=new ClientePersona();
-        this.showTable=false
-        this.showCliente=false
+        this.pedidoFactura = new PedidoFactura()
+        this.pedidoFactura.tipoEntrega = new TipoEntrega();
+        this.pedidoFactura.clientePersona = new ClientePersona();
+        this.showTable = false
+        this.showCliente = false
         Swal.fire({
           title: "Casa pro",
           text: "Operacion exitosa",
