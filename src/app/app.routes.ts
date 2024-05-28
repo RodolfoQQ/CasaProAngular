@@ -7,6 +7,7 @@ import { CustodioComponent } from './custodio/custodio.component';
 import { PedidoComponent } from './pedido/pedido.component';
 import { FormPedidoComponent } from './pedido/form-pedido/form-pedido.component';
 import { EntregapedidoComponent } from './entregapedido/entregapedido.component';
+import { AlmacenComponent } from './almacen/almacen/almacen.component';
 
 export const routes: Routes = [
     {path:'clientes',component: ClieentesComponent},
@@ -14,7 +15,8 @@ export const routes: Routes = [
     {path:'producto', component: ProductoComponent},
     {path:'custodio', component: CustodioComponent},
     {path:'pedido', component:FormPedidoComponent},
-    {path:'entregatienda',component:EntregapedidoComponent}
+    {path:'entregatienda',component:EntregapedidoComponent},
+    {path:'almacen', component:AlmacenComponent}
     
     
 ];

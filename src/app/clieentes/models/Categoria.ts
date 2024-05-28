@@ -1,10 +1,10 @@
+import { Producto } from "./Productos";
+
 export class Categoria{
     
     codCategoria!:number;
     nombrCategoria!:string;
+    productos:Array<Producto>=[]
 
-       /* constructor( cod_categoria:number, nombr_categoria:string ){
-            this.cod_categoria=cod_categoria;
-            this.nombr_categoria=nombr_categoria;
-        }*/
+    
 }

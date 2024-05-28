@@ -31,7 +31,7 @@ export class FormProductoComponent {
 
   ngOnInit(): void{
     
-    this.serviceCategoria.ListaCateriaNombre().subscribe(data=>{
+    this.serviceCategoria.llenaSelect().subscribe(data=>{
       this.categorias=data
       console.log(this.categorias)
 

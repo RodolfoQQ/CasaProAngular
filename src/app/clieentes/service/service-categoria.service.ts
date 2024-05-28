@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Categoria } from '../models/Categoria';
+import { Producto } from '../models/Productos';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,14 @@ export class ServiceCategoriaService {
 
   constructor(private http:HttpClient) { }
 
-  ListaCateriaNombre():Observable<Categoria[]>{
+  llenaSelect():Observable<Categoria[]>{
     
     return this.http.get<Categoria[]>(this.url);
   }
+
+  listaPorCategoria(codCategoria:number):Observable<Categoria>{
+    return this.http.get<Categoria>(`${this.url}/${codCategoria}`)
+  }
+
   
 }

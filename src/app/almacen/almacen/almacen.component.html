@@ -1,0 +1,35 @@
+<div class="container">
+         @for (andamio of andamios; track $index) {    
+        <div class="andamio"> {{andamio.codAndamio}}
+            @for (piso of andamio.piso; track $index) {
+                <div class="d-flex piso"> <button (click)="editarCotenidoPiso(piso)" >hola</button>{{piso.codPisoAndamio}}
+                @for (ubicacion of piso.ubicacion; track $index) {
+                    <div class="ubicacion"> 
+                        
+                        <div>{{ubicacion.descripcion}}</div>   
+                        <div> 
+                        @if (ubicacion.productos) {
+                            {{ubicacion.productos.nombreProducto}}
+                            }
+                        </div>
+                        
+                                        
+                    </div>
+                }
+                
+                </div>
+            }
+
+        </div>
+       
+    }
+
+</div>
+    <!-- <div class="piso">
+        <div class="ubicacion"> </div>
+    </div>    
+    <div class="piso">
+        <div class="ubicacion"> </div>
+    </div>    -->
+
+

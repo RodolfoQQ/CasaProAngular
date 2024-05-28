@@ -26,7 +26,7 @@ export class ProductoComponent {
 
   ngOnInit(): void {
 
-    this.serviceCategoria.ListaCateriaNombre().subscribe(data=>{
+    this.serviceCategoria.llenaSelect().subscribe(data=>{
       this.categorias=data
       console.log(this.categorias)
 
@@ -37,7 +37,6 @@ export class ProductoComponent {
     this.service.findallProductos().subscribe(
       data=>{
         this.productos=data
-        console.log(this.productos)
       } )
 
       this.serviceBehaivor.productosActualizados$.subscribe(data=>{
