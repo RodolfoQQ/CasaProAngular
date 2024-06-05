@@ -194,11 +194,13 @@ export class FormPedidoComponent {
     } else {
       this.servicePedidoFactura.savePedido(this.pedidoFactura).subscribe(() => {
         console.log(this.pedidoFactura.tipoEntrega.direccion)
-        this.pedidoFactura = new PedidoFactura()
-        this.pedidoFactura.tipoEntrega = new TipoEntrega();
-        this.pedidoFactura.clientePersona = new ClientePersona();
-        this.showTable = false
-        this.showCliente = false
+        //limpia los datos de entarda
+          this.pedidoFactura = new PedidoFactura()
+          this.pedidoFactura.tipoEntrega = new TipoEntrega();
+          this.pedidoFactura.clientePersona = new ClientePersona();
+        //oculta los elementos
+            this.showTable = false
+            this.showCliente = false
         Swal.fire({
           title: "Casa pro",
           text: "Operacion exitosa",

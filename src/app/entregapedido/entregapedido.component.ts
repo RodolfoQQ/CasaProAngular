@@ -60,7 +60,7 @@ export class EntregapedidoComponent {
     this.selectedPedido={ ...pedidoFactura}
     
     Swal.fire({
-      title: '¿Estás seguro de actualizar el estado pedido?',
+      title: '¿Estás seguro de actualizar el estado del pedido?',
       text: 'No podrás revertir esto',
       icon: 'warning',
       showCancelButton: true,

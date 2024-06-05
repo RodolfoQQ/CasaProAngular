@@ -11,7 +11,7 @@
                         <div class="col-sm-3">
                             <div> <label class="text-decoration" >Categoria</label></div>
                         <div>
-                            <select [(ngModel)]="producto.categoria.codCategoria"  name="categoria" class="form-control">
+                            <select [(ngModel)]="producto.categoria.codCategoria"  name="codcategoria" class="form-control">  <!--- [(ngModel)]="codCategoria" -->  
                                 <option >Selecione</option>
                                 <option  class="form-control"  *ngFor="let cat of categorias"  [value]="cat.codCategoria" > {{cat.nombrCategoria }}</option>                      
                             </select>

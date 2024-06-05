@@ -1,7 +1,7 @@
 
 
-
 <div class="d-flex p-4 justify-content-center ">
+ 
     <div class="card col-4 p-2">
         <p>{{data.piso.codPisoAndamio}}</p>
         <mat-dialog-content>
@@ -18,10 +18,13 @@
                             <td><button mat-icon-button  (click)="quitarProdcuto(item.productos)">
                                 <mat-icon>deleted</mat-icon> </button></td>
                         </tr>
-                        
-    
-    
-                }
+                        <div>
+                            <table>
+
+                            </table>
+                        </div>
+                       
+                   }
                     
                 </tbody>
     
@@ -45,34 +48,33 @@
                     <div>
                         <button class="btn btn-success" (click)="listaPorCategoria()"> Filtrar</button>
                     </div>
-                </div>
-            </form>
-                <div class="card">
+                    </div>
+           
+                    <div class="card">
                     
-                    <mat-dialog-content>
-                        <table class=" table-hover bordered">
-                           
-                            <tbody>
-                                @for (producto of productos; track $index) {
-                                    <tr>
-                                        <td>{{producto.nombreProducto}}</td>
-                                        <td><button mat-icon-button (click)="addtoListapiso(producto)">
-                                            <mat-icon> add</mat-icon>
-                                        </button></td>
-                                        
-                                     </tr>
-                                }
-                                
-                              
-                    
-                            </tbody>
-                        </table>
-                    </mat-dialog-content>
-                </div>
-                
+                        <mat-dialog-content>
+                            <table class=" table-hover bordered">
+                            
+                                <tbody>
+                                    @for (producto of productos; track $index) {
+                                        <tr>
+                                            <td>{{producto.nombreProducto}}</td>
+                                            <td><button mat-icon-button (click)="addtoListapiso(producto)">
+                                                <mat-icon> add</mat-icon>
+                                            </button></td>
+                                            
+                                        </tr>
+                                    }
+
+                                  </tbody>
+                            </table>
+                        </mat-dialog-content>
+                     </div>
+                    <div class="alert alert-info"> <button class="btn btn-success" (click)="guardarInfomacionEnpiso()">guardar</button></div>
+                </form>
 
             </div>
-           
+        
         
            </div>
         

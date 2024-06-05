@@ -19,8 +19,9 @@
                     <tr class="">   
                                 <td class="text-muted">{{item.codProducto}}</td> 
                                 <td class="text-muted">{{item.nombreProducto}}</td> 
-                                <td class="text-muted">{{item.categoria.nombrCategoria}}</td> 
-                                <td class="text-muted">{{item.descripcion}}</td>
+                                 <td class="text-muted">{{item.descripcion}}</td>
+                                 <td class="text-muted">{{item.categoria? item.categoria.nombrCategoria :'Categoria sin asignar' }}</td> 
+                             
                                 <div>
                                        <td class="text-muted"><button class="btn btn-warning" (click)="onSelectProducto(item)">Editar</button></td> 
                                        <td class="text-muted"><button class="btn btn-danger" (click)="deletedOne(item.codProducto)">Eliminar</button></td> 

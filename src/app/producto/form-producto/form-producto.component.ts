@@ -20,7 +20,7 @@ export class FormProductoComponent {
   //@Output() productoGuardado= new EventEmitter();
 
   productos:Producto[]=[]
-  
+ 
   categorias:Categoria[]=[]
 
 
@@ -45,6 +45,8 @@ export class FormProductoComponent {
 
 
     guadarProducto():void{
+
+    
         this.serviceProducto.saveProducto(this.producto).subscribe(
           ()=>{
             this.serviceProducto.findallProductos().subscribe(data=>{

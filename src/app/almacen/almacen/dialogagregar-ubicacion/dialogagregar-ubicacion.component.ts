@@ -1,4 +1,4 @@
-import { Dialog } from '@angular/cdk/dialog';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, NgModule } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { AlmacenComponent } from '../almacen.component';
@@ -14,6 +14,12 @@ import { RowPedido } from '../../../clieentes/models/RowPedido';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Ubicacion } from '../../../clieentes/models/Ubicacion';
+import { ServicePisoService } from '../../../clieentes/service/service-piso.service';
+import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
+import swal from 'sweetalert';
+
+
 
 
 
@@ -28,13 +34,19 @@ import { Ubicacion } from '../../../clieentes/models/Ubicacion';
 export class DialogagregarUbicacionComponent {
 
   productos: Producto[]=[];
+  //parametro para selecionar categoria del select
   codCategoria!:number ;
   //productos: Producto=new Producto();
  
   categorias:Categoria[]=[]
   nuebaUbicacion= new Ubicacion;
-  constructor(@Inject(MAT_DIALOG_DATA) public data:{piso:Piso},public dialog:MatDialog,
-   private serviceProducto:ServiceProductoService, private serviceCategoria:ServiceCategoriaService ){
+
+  constructor(
+    private dialofRef:DialogRef<DialogagregarUbicacionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data:{piso:Piso},public dialog:MatDialog,
+   private serviceProducto:ServiceProductoService,
+   private serviceCategoria:ServiceCategoriaService,
+   private pisoService:ServicePisoService){
    //  this.productos.categoria =new Producto
   }
 
@@ -60,7 +72,7 @@ export class DialogagregarUbicacionComponent {
     )
   }
 
-  //compara las los dos listas de las tablas y solo muestra en lalista productos los q no ha sido agregados
+  //compara las los dos listas de las tablas y solo muestra en la lista productos los q no ha sido agregados
   quitalosPorductosYaagregados(){
     this.productos = this.productos.filter(producto =>
       !this.data.piso.ubicacion.some(item => item.productos.codProducto === producto.codProducto)
@@ -113,6 +125,23 @@ export class DialogagregarUbicacionComponent {
       }
       
   }
+
+  guardarInfomacionEnpiso(){
+    this.pisoService.saveInformaciondePiso(this.data.piso).subscribe(
+      ()=>{
+        swal("Good job!", 
+        "You clicked the button!",
+        
+         "success").then(()=>{
+           this.dialofRef.close();
+         })
+       },
+      
+       
+       
+    );
+  }
+
 
   
 }

@@ -1,10 +1,11 @@
+
 .andamio{
     justify-content: center;
     flex-direction: column;
     height: 300px;
     background-color: rgb(119, 218, 185);
     margin: 4px;
-    width: 98%;
+
 }
 .piso{
 
@@ -15,8 +16,47 @@
 }
 
 .ubicacion{
-    background-color: rgb(147, 147, 251);
+    background-color: rgba(24, 28, 109, 0.5);
+    padding: 10px;
     height: 90%;
     width: 10%;
     margin: 2px;
+    border-radius: 8%;
 }
+.ubicacion:hover{
+    position: relative;
+    width: 30%;
+    background-color: rgb(9, 100, 169);
+}
+button{
+    background: transparent;
+    border: none;
+
+    
+}
+.iconDelet{
+    color: rgb(146, 145, 147);;
+}
+
+.iconDelet:hover{
+    color: rgb(252, 1, 31);
+    transition: 0.2s;
+    
+}
+.editarPiso{
+   color: rgb(146, 145, 147);
+}
+
+.editarPiso:hover{
+    color: chartreuse;
+    
+}
+.contenidoPisoubicacion{
+    color:rgb(146, 145, 147);
+}
+.contenidoPisoubicacion:hover{
+    color: chartreuse;
+}
+
+
+    

@@ -49,8 +49,8 @@ export class ProductoComponent {
   
   //@Output() ouputrowProductoEmiter= new EventEmitter();
   onSelectProducto(rowProducto:Producto){
-
-      this.productoSelected={ ...rowProducto}
+      
+    this.productoSelected={ ...rowProducto}
      // this.ouputrowProductoEmiter.emit(this.productoSelected)
        
   }
