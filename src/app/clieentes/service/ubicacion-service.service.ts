@@ -16,8 +16,9 @@ export class UbicacionServiceService {
     return this.http.delete<void>(`${this.url}/${codubicacion}`)
 
   }
-  
-  actualizarProductoOnUbicacion(codUbicacion:Number, codProducto:Number):Observable<Ubicacion>{
+
+
+  actualizarProductoOnUbicacion(codUbicacion:number, codProducto:number):Observable<Ubicacion>{
 
     return this.http.put<Ubicacion>(`${this.url}/${codUbicacion}/${codProducto}`,{})
   }

@@ -8,4 +8,7 @@ button{
 .selecionarProducto:hover{
     color: rgb(70, 214, 57);
 }
+.btn-select{
+  background-color: green;
+}
 

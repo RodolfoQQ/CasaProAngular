@@ -1,94 +1,168 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Ubicacion } from '../../../clieentes/models/Ubicacion';
 import { DialogRef } from '@angular/cdk/dialog';
 import { NgIf } from '@angular/common';
-import { Producto } from '../../../clieentes/models/Productos';
-import { Piso } from '../../../clieentes/models/Piso';
-import { ServiceCategoriaService } from '../../../clieentes/service/service-categoria.service';
-import { Categoria } from '../../../clieentes/models/Categoria';
+import { Component, Inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { UbicacionServiceService } from '../../../clieentes/service/ubicacion-service.service';
+import { Categoria } from '../../../clieentes/models/Categoria';
+import { Piso } from '../../../clieentes/models/Piso';
+import { Producto } from '../../../clieentes/models/Productos';
+import { Ubicacion } from '../../../clieentes/models/Ubicacion';
+import { BehaivorSubjectService } from '../../../clieentes/service/behaivor-subject-producto.service';
+import { DetalleubicacionService } from '../../../clieentes/service/detalleubicacion.service';
+import { ServiceAlmacenService } from '../../../clieentes/service/service-almacen.service';
+import { ServiceCategoriaService } from '../../../clieentes/service/service-categoria.service';
 
 @Component({
   selector: 'app-dialog-editarcontenido-ubicacion',
   standalone: true,
-  imports: [NgIf, MatIcon],
+  imports: [NgIf, MatIcon,FormsModule],
   templateUrl: './dialog-editarcontenido-ubicacion.component.html',
   styleUrl: './dialog-editarcontenido-ubicacion.component.css'
 })
 export class DialogEditarcontenidoUbicacionComponent {
 
   ubicacion:Ubicacion =new Ubicacion();
+  nombreCategoria:string[]=[]
+  codcategoria!:number
+  //productosDeLasUbicaciones:Ubicacion[]=[]
+  //productosDePiso:Producto[]=[]
+  //piso:Piso=new Piso();
+  categoria:Categoria[]=[];
+  //productosporCategoriaDisponibles:Producto[]=[]
+  ///////////////////////////
+  //productosDisponibles:any[]=[]
+  productoPorCategoria:Producto[]=[]
+  produtosFiltrados:Producto[]=[]
+  //codCategoriaDeProducto!:number;
+  //codDetalle!:number;
 
-  productosDeLasUbicaciones:Ubicacion[]=[]
-  productosDePiso:Producto[]=[]
-  piso:Piso=new Piso();
-  categoria=new Categoria();
-  productosporCategoriaDisponibles:Producto[]=[]
-  //productosDisponibles:Producto[]=[]
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data:{dataUbicacionAlmacen: Ubicacion,
-     dataPiso:Piso
-   
+  ///
+ prodcutosdeDetalles:Producto[]=[]
+  estadoCategoria:boolean=false;
+  constructor(@Inject(MAT_DIALOG_DATA) public data:{dataDetalleDeubicacion: Ubicacion,
+    ubicacionesDePiso:Piso,
     },
     private servicioCategoria:ServiceCategoriaService,
-    private serviceUbicacion:UbicacionServiceService,
+    private serviceDetalle:DetalleubicacionService,
+    private servicioAndamio:ServiceAlmacenService,
+    private serviceBehaivor:BehaivorSubjectService,
+    private serviceCategoria:ServiceCategoriaService,
     private dialofRef:DialogRef<DialogEditarcontenidoUbicacionComponent>
-  ) { 
-  
+  ) {
+
   }
+
 
   ngOnInit(): void {
-    //this.getProductosDisponblies();
-    this.filtraCategoriaPorcodigo();
-    
-  }
+    this.obtenernombrecategoria()
+    this.listaPorCategoria()
 
-  getProductosDisponblies(){
-    //mustra el producto selecionado q esta en la ubicacion    
-    this.ubicacion = this.data.dataUbicacionAlmacen
-    //obtiene los porductos de cada ubicacion
-    this.productosDeLasUbicaciones = this.data.dataPiso.ubicacion
+    }
 
-    this.productosporCategoriaDisponibles=this.productosporCategoriaDisponibles.filter(
-      productoCate=> !this.productosDeLasUbicaciones.some(ubic=>ubic.productos.codProducto===productoCate.codProducto)
-
-    )
-  }
-/*
-  quitalosPorductosYaagregados(){
-    this.productos = this.productos.filter(producto =>
-      !this.data.piso.ubicacion.some(item => item.productos.codProducto === producto.codProducto)
-    );
-  }*/
-
-  //filtra la categoria del producto seleccionado
-  filtraCategoriaPorcodigo(){
-    const codCategoria = this.data.dataUbicacionAlmacen.productos.categoria.codCategoria
-    
-    this.servicioCategoria.listaPorCategoria(codCategoria).subscribe(
-      cata=>{
-        //obtiene el nombre de la categoria
-        this.categoria=this.data.dataUbicacionAlmacen.productos.categoria,
-        //lista los productos por 
-        this.productosporCategoriaDisponibles=cata.productos
-        console.log("los productos son "+this.productosporCategoriaDisponibles)
-
-        this.getProductosDisponblies()
-      }
-    )
-  }
-
-  remplazarProducto(ubicacion:Number,producto:Number){
-    console.log("ubicacion: "+ubicacion)
-      this.serviceUbicacion.actualizarProductoOnUbicacion(ubicacion,producto
-      ).subscribe(
-        ()=>{
-          console.log( " producto "+producto)
-          alert("Se actualizo el producto"+ this.ubicacion.productos.nombreProducto)
-        }
-      )
+  obtenernombrecategoria(){
+    this.nombreCategoria=this.data.dataDetalleDeubicacion.detalleUbicacion.
+    map(detalle=> detalle.productos.categoria.nombrCategoria);
 
   }
+
+
+
+
+  listacategoria(){
+    this.serviceCategoria.llenaSelect().subscribe(datacategorias=>{
+      this.categoria=datacategorias
+
+    })
+
 }
+
+
+
+  listaPorCategoria(){
+
+    const cod: number = Number(this.data.dataDetalleDeubicacion.detalleUbicacion.find(det => det.productos.categoria.codCategoria)?.productos.categoria.codCategoria);
+  ///evalua si en detalle de la ubicacion hay detalledeubicaion, si no lo hay muestra un select
+    if(isNaN(cod)){
+        this.estadoCategoria=true;
+        this.listacategoria();
+
+       // this.quitalosPorductosYaagregados();
+
+    }else{
+      this.servicioCategoria.listaPorCategoria(cod).subscribe(
+        resul => {
+          this.productoPorCategoria = resul.productos
+
+         this.quitalosPorductosYaagregados()
+       });
+
+    }
+
+
+        /*this.serviceCategoria.llenaSelect().subscribe(datacategorias=>{
+          this.categoria=datacategorias
+
+        })
+*/
+
+
+
+
+}
+//compara la lista de losproductos en el piso y productos por catgpria y obtiene los q no se agregaron
+quitalosPorductosYaagregados(){
+  const codigosProductosEnUbicaciones = this.data.ubicacionesDePiso.ubicacion.flatMap(
+    ubicacion => ubicacion.detalleUbicacion.map(detalle => detalle.productos.codProducto))
+
+  this.productoPorCategoria=this.productoPorCategoria.filter
+  (prod=>!codigosProductosEnUbicaciones.includes(prod.codProducto))
+
+}
+
+
+remplazarProducto(coddetalle:number,codProdcuto:number){
+// aquien en este metodo despues de guardar debe actualizar los andamios
+console.log("cod ubicacion : "+coddetalle+" cod producto "+codProdcuto)
+
+  this.serviceDetalle.actualizaUbicaiondelDetalle(coddetalle,codProdcuto).subscribe(()=>{
+    alert("se actualizo producto")
+
+    this.actulaizarAndamios();
+  } )
+
+}
+  private actulaizarAndamios(){
+    this.servicioAndamio.listarAndamio().subscribe(dataandamios=>{
+      this.serviceBehaivor.actualizaAndamio(dataandamios);
+      console.log("datos de Andamio "+ dataandamios)
+
+    })
+
+  }
+
+
+
+prodcutosPorcategoria(codcategoria:number){
+  this.serviceCategoria.listaPorCategoria(codcategoria).subscribe(dataProd=>{
+   this.productoPorCategoria=dataProd.productos
+
+   const prodcutosdeDetalles:number[]=this.data.ubicacionesDePiso.ubicacion
+   .flatMap(datamap=>datamap.detalleUbicacion.map(dataProd=>dataProd.productos.codProducto))
+
+    this.productoPorCategoria=this.productoPorCategoria.filter(prodCate=>!
+      prodcutosdeDetalles.includes(prodCate.codProducto))
+
+    console.log("producto por categoria ---> "+ JSON.stringify(this.productoPorCategoria)+this.productoPorCategoria.length)
+
+
+      console.log("productos de los pisos:" +JSON.stringify(this.prodcutosdeDetalles)+"cantidad-->"+this.prodcutosdeDetalles.length)
+
+
+  })
+
+
+}
+}
+
+

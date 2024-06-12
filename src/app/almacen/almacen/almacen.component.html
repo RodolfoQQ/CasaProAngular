@@ -1,50 +1,43 @@
 <div class="">
-    @for (andamio of andamios; track $index) {
-    <div class="andamio"> {{andamio.codAndamio}}
-        @for (piso of andamio.piso; track $index) {
-        <div class="d-flex piso"> <button (click)="editarCotenidoPiso(piso)"><mat-icon class="editarPiso">
-                    edit</mat-icon> </button>
-            @for (ubicacion of piso.ubicacion; track $index) {
-            <div class="ubicacion d-flex justify-content-between text-white">
+    <button (click)="productosSinubicacion()" class="ProductosSinUbicacion btn-success " mat-fab color="warn"><mat-icon>storage</mat-icon></button>
 
-                @if (ubicacion.productos) {
-                <div>
-                    {{ubicacion.productos.nombreProducto}}
+     @for (andamio of andamios; track $index) {
 
-                </div>
 
-                <div class="text-white">
-                         <div>
-                            <button (click)="editaelcontenidodeUbicacion(ubicacion,piso)"> <mat-icon class="contenidoPisoubicacion" >edit</mat-icon></button>
+      @if(andamio.codAndamio==3){
+      }@else {
+        <div class="andamio"> {{andamio.codAndamio}}
+
+
+            @for (piso of andamio.piso; track $index) {
+
+
+                <div class="d-flex piso">
+                    <div> <button (click)="editarCotenidoPiso(piso)"><mat-icon class="editarPiso">edit</mat-icon> </button></div>
+                    @for (ubicacion of piso.ubicacion; track $index) {
+
+                        <div class="ubicacion d-flex justify-content-between text-white">
+                         <button (click)="editarContenidoUbicacion(ubicacion,piso)" ><mat-icon class="addDetalleonUbicacion">add</mat-icon> </button>
+
+                            @for (detalle of ubicacion.detalleUbicacion; track $index) {
+                                      <div class="">
+                                    @if (detalle.ubicacion.codUbicacion==11) {
+                                    }@else {
+                                        {{detalle.productos.nombreProducto}}
+                                        {{detalle.codDetalleub}}
+                                        {{detalle.ubicacion.codUbicacion}}
+                                    }
+
+                                </div>
+
+                            }
+
                         </div>
-                    <div>
-
-                        <button class="botoneliminar" (click)="eliminarUbicacionconsuProducto(ubicacion.codUbicacion)">
-                            <mat-icon class="iconDelet">deleted</mat-icon>
-                            
-                        </button> 
-                    </div>
+                    }
                 </div>
-                }
-
-                
-               
-
-            </div>
-
             }
-
         </div>
-        }
-
-    </div>
-
     }
+      }
 
 </div>
-<!-- <div class="piso">
-        <div class="ubicacion"> </div>
-    </div>    
-    <div class="piso">
-        <div class="ubicacion"> </div>
-    </div>    -->

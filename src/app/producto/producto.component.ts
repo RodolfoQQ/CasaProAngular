@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormProductoComponent } from './form-producto/form-producto.component';
+import { Component } from '@angular/core';
 import { Categoria } from '../clieentes/models/Categoria';
-import { ServiceCategoriaService } from '../clieentes/service/service-categoria.service';
 import { Producto } from '../clieentes/models/Productos';
+import { BehaivorSubjectService } from '../clieentes/service/behaivor-subject-producto.service';
+import { ServiceCategoriaService } from '../clieentes/service/service-categoria.service';
 import { ServiceProductoService } from '../clieentes/service/service-producto.service';
-import { BehaivorSubjectProductoService } from '../clieentes/service/behaivor-subject-producto.service';
+import { FormProductoComponent } from './form-producto/form-producto.component';
 
 @Component({
   selector: 'app-producto',
@@ -20,7 +20,7 @@ export class ProductoComponent {
   productoSelected:Producto =new Producto();
   categorias:Categoria[]=[]
 
-  constructor(private serviceBehaivor:BehaivorSubjectProductoService ,private service:ServiceProductoService,private serviceCategoria:ServiceCategoriaService){
+  constructor(private serviceBehaivor:BehaivorSubjectService ,private service:ServiceProductoService,private serviceCategoria:ServiceCategoriaService){
     this.productoSelected.categoria = new Categoria();
   }
 
@@ -30,7 +30,7 @@ export class ProductoComponent {
       this.categorias=data
       console.log(this.categorias)
 
-      
+
 
     })
 
@@ -42,17 +42,17 @@ export class ProductoComponent {
       this.serviceBehaivor.productosActualizados$.subscribe(data=>{
         this.productos=data
       })
-    
+
 
   }
-  
-  
+
+
   //@Output() ouputrowProductoEmiter= new EventEmitter();
   onSelectProducto(rowProducto:Producto){
-      
+
     this.productoSelected={ ...rowProducto}
      // this.ouputrowProductoEmiter.emit(this.productoSelected)
-       
+
   }
 
 

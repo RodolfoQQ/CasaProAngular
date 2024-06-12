@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ServiceCategoriaService } from '../../clieentes/service/service-categoria.service';
-import { Categoria } from '../../clieentes/models/Categoria';
 import { NgFor, NgIf } from '@angular/common';
-import { FormsModule, NgModel } from '@angular/forms';
-import { ServiceProductoService } from '../../clieentes/service/service-producto.service';
+import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Categoria } from '../../clieentes/models/Categoria';
 import { Producto } from '../../clieentes/models/Productos';
-import { BehaivorSubjectProductoService } from '../../clieentes/service/behaivor-subject-producto.service';
+import { BehaivorSubjectService } from '../../clieentes/service/behaivor-subject-producto.service';
+import { ServiceCategoriaService } from '../../clieentes/service/service-categoria.service';
+import { ServiceProductoService } from '../../clieentes/service/service-producto.service';
 
 @Component({
   selector: 'app-form-producto',
@@ -20,40 +20,40 @@ export class FormProductoComponent {
   //@Output() productoGuardado= new EventEmitter();
 
   productos:Producto[]=[]
- 
+
   categorias:Categoria[]=[]
 
 
   constructor(
-    private behaivorProduct:BehaivorSubjectProductoService,private serviceCategoria:ServiceCategoriaService, private serviceProducto:ServiceProductoService){
+    private behaivorProduct:BehaivorSubjectService,private serviceCategoria:ServiceCategoriaService, private serviceProducto:ServiceProductoService){
   this.producto.categoria = new Categoria();
 }
 
   ngOnInit(): void{
-    
+
     this.serviceCategoria.llenaSelect().subscribe(data=>{
       this.categorias=data
       console.log(this.categorias)
 
     })
     }
-    
+
     addProdcutoRowToForm(){
 
     }
 
 
-
     guadarProducto():void{
 
-    
-        this.serviceProducto.saveProducto(this.producto).subscribe(
-          ()=>{
-            this.serviceProducto.findallProductos().subscribe(data=>{
-              this.behaivorProduct.actualizarProducto(data)
-            })
-          }
-        )
-    }
+
+      this.serviceProducto.saveProducto(this.producto).subscribe(
+        ()=>{
+          this.serviceProducto.findallProductos().subscribe(data=>{
+            this.behaivorProduct.actualizarProducto(data)
+          })
+        }
+      )
+  }
+
 
 }

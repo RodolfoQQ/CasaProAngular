@@ -1,26 +1,25 @@
-import { Component, NgModule } from '@angular/core';
-import { Andamio } from '../../clieentes/models/Andamio';
-import { ServiceAlmacenService } from '../../clieentes/service/service-almacen.service';
 import { NgFor, NgIf } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Producto } from '../../clieentes/models/Productos';
-import { Piso } from '../../clieentes/models/Piso';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogTitle,
-  MatDialogContent,
+  MatDialog
 } from '@angular/material/dialog';
-import {MatButtonModule, MatIconButton} from '@angular/material/button';
-import { DialogagregarUbicacionComponent } from './dialogagregar-ubicacion/dialogagregar-ubicacion.component';
 import { MatIcon } from '@angular/material/icon';
-import { UbicacionServiceService } from '../../clieentes/service/ubicacion-service.service';
-import { Ubicacion } from '../../clieentes/models/Ubicacion';
 import Swal from 'sweetalert2';
+import { Andamio } from '../../clieentes/models/Andamio';
+import { Piso } from '../../clieentes/models/Piso';
+import { Producto } from '../../clieentes/models/Productos';
+import { Ubicacion } from '../../clieentes/models/Ubicacion';
+import { DetalleUbicaion } from '../../clieentes/models/detalleUbicacion';
+import { BehaivorSubjectService } from '../../clieentes/service/behaivor-subject-producto.service';
+import { DetalleubicacionService } from '../../clieentes/service/detalleubicacion.service';
+import { ServiceAlmacenService } from '../../clieentes/service/service-almacen.service';
+import { UbicacionServiceService } from '../../clieentes/service/ubicacion-service.service';
 import { DialogEditarcontenidoUbicacionComponent } from './dialog-editarcontenido-ubicacion/dialog-editarcontenido-ubicacion.component';
-/*export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
-}*/
+import { DialogProdcutosSinUbicacionComponent } from './dialog-prodcutos-sin-ubicacion/dialog-prodcutos-sin-ubicacion.component';
+import { DialogagregarUbicacionComponent } from './dialogagregar-ubicacion/dialogagregar-ubicacion.component';
+
 
 @Component({
   selector: 'app-almacen',
@@ -31,45 +30,56 @@ import { DialogEditarcontenidoUbicacionComponent } from './dialog-editarcontenid
 })
 
 export class AlmacenComponent {
-  andamios!:Andamio[] 
+  andamios!:Andamio[]
+
+
   prodcuto:Producto =new Producto();
   piso:Piso=new Piso();
   selectUbicacion:Ubicacion =new Ubicacion();
-  
-    
+  detalleubicacion:DetalleUbicaion =new DetalleUbicaion()
+ //detalleub:DetalleUbicaion[]=[]
+  productodeDetalleubicacion:Producto[]=[]
+  codUbicacion!:number;
+
+
   constructor(private service:ServiceAlmacenService,
      public dialog :MatDialog,
-    public serviceEliminarUbicacion:UbicacionServiceService
+     private serviceEliminarUbicacion:UbicacionServiceService,
+     private serviceDetalle:DetalleubicacionService,
+    private serviceBehaivo:BehaivorSubjectService
     ){
-      this.selectUbicacion.productos= new Producto();
-       }
 
-  ngOnInit(): void {
-    this.listarAndamio();
-    
- 
 
-  }
+      }
+
+      ngOnInit(): void {
+        this.serviceBehaivo.andamioActualizado$.subscribe((data: Andamio[]) => {
+          this.andamios = data;
+         // Fuerza la detección de cambios
+        });
+
+        this.listarAndamio();
+        this.listaDetalledeUbicacion();
+      }
 
   //abre el dialgog y envia la informacion al componente traido
   listarAndamio(){
-   
-    
+
     this.service.listarAndamio().subscribe(data=>{
       this.andamios=data
+      this.serviceBehaivo.actualizaAndamio(data);
 
-      })
+
+    })
   }
 
 
   editarCotenidoPiso(piso:Piso){
     this.piso={...piso}
-
-
     this.dialog.open(DialogagregarUbicacionComponent,{
       width:"800px",
       height:"800",
-      
+
           data:{
               piso:this.piso
           }
@@ -77,11 +87,11 @@ export class AlmacenComponent {
   }
 
   eliminarUbicacionconsuProducto(codUbicacion:number){
-   
+
     this.serviceEliminarUbicacion.eliminarUbicacionConProducto(codUbicacion).subscribe(
       ()=>{
         Swal.fire({
-      
+
           text: 'Esta seguro de eliminar la ubicacion',
           icon: 'warning',
           showCancelButton: true,
@@ -92,27 +102,55 @@ export class AlmacenComponent {
           if (result.isConfirmed) {
            this.listarAndamio();
            //recibe el codigo del producto y el cuerpo
-           
-        
+
+
           }
         });
       }
     )
   }
 
-  editaelcontenidodeUbicacion(codubicacion:Ubicacion, pisodata:Piso){
+  editarContenidoUbicacion(codubicacion:Ubicacion,piso:Piso){
     this.selectUbicacion={...codubicacion}
-    this.piso={...pisodata}
-    
-   console.log("datos de ub almacen "+JSON.stringify( this.selectUbicacion))
+    this.piso={...piso}
+
+
+
     this.dialog.open(DialogEditarcontenidoUbicacionComponent,{
       width:"300px",
       height:"400px",
       data: {
-        dataUbicacionAlmacen:this.selectUbicacion,
-        dataPiso:this.piso
+        dataDetalleDeubicacion:this.selectUbicacion,
+
+        ubicacionesDePiso:this.piso
       },
-     
+
     })
+
+  }
+
+  listaDetalledeUbicacion(){
+    this.serviceDetalle.listardetalledeubicacion().subscribe(data=>{
+   //   this.detalleub=data
+
+     // console.log("data de ubicacion detalle  es : " + JSON.stringify(this.detalleubicacion) )
+    })
+  }
+
+  findDetalleubicacionByid(codubicacion:number){
+
+    this.serviceDetalle.finddetalledeubicacion(codubicacion).subscribe(data=>{
+
+      this.detalleubicacion=data
+      console.log( "datos de detalle son :"+this.detalleubicacion)
+    })
+
+
+  }
+
+  productosSinubicacion(){
+      this.dialog.open(DialogProdcutosSinUbicacionComponent,{
+
+      })
   }
 }

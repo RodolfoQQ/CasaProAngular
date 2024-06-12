@@ -1,3 +1,9 @@
+button{
+    background-color: transparent;
+    border: none;
+    height: 2px;
+    color: yellow;
+}
 
 .andamio{
     justify-content: center;
@@ -23,17 +29,8 @@
     margin: 2px;
     border-radius: 8%;
 }
-.ubicacion:hover{
-    position: relative;
-    width: 30%;
-    background-color: rgb(9, 100, 169);
-}
-button{
-    background: transparent;
-    border: none;
 
-    
-}
+
 .iconDelet{
     color: rgb(146, 145, 147);;
 }
@@ -45,18 +42,28 @@ button{
 }
 .editarPiso{
    color: rgb(146, 145, 147);
+   
 }
 
 .editarPiso:hover{
     color: chartreuse;
     
+    
 }
 .contenidoPisoubicacion{
     color:rgb(146, 145, 147);
+  
 }
 .contenidoPisoubicacion:hover{
     color: chartreuse;
 }
 
+.ProductosSinUbicacion {
+    position: fixed; /* Para mantener el botón en la misma posición al hacer scroll */
+    top: 50px; /* Margen superior de 50 píxeles */
+    right: 50px; /* Margen derecho de 50 píxeles */
+    z-index: 1000; /* Asegúrate de que el botón esté encima de otros elementos */
+    /* Otros estilos que desees para el botón */
+}
 
     

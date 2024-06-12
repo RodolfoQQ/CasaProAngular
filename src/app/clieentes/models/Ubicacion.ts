@@ -1,9 +1,11 @@
-import { Producto } from "./Productos";
+import { DetalleUbicaion } from "./detalleUbicacion";
 
 export class Ubicacion{
     codUbicacion!:number;
 
     descripcion!:string;
 
-    productos!:Producto
+    detalleUbicacion: Array<DetalleUbicaion>=[]
+
+
 }
