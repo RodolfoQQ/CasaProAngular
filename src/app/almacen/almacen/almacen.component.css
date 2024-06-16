@@ -1,8 +1,8 @@
 button{
     background-color: transparent;
     border: none;
-    height: 2px;
-    color: yellow;
+
+    color: rgb(248, 248, 243);
 }
 
 .andamio{
@@ -15,10 +15,12 @@ button{
 }
 .piso{
 
+   display: flex;
     background-color: rgb(45, 79, 143);
     height: 30%;
     width: 100%;
     margin: 2px;
+    color: aliceblue;
 }
 
 .ubicacion{
@@ -38,32 +40,74 @@ button{
 .iconDelet:hover{
     color: rgb(252, 1, 31);
     transition: 0.2s;
-    
+
 }
 .editarPiso{
    color: rgb(146, 145, 147);
-   
+
 }
 
 .editarPiso:hover{
     color: chartreuse;
-    
-    
+
+
 }
 .contenidoPisoubicacion{
     color:rgb(146, 145, 147);
-  
+
 }
 .contenidoPisoubicacion:hover{
     color: chartreuse;
 }
 
 .ProductosSinUbicacion {
-    position: fixed; /* Para mantener el botón en la misma posición al hacer scroll */
-    top: 50px; /* Margen superior de 50 píxeles */
-    right: 50px; /* Margen derecho de 50 píxeles */
-    z-index: 1000; /* Asegúrate de que el botón esté encima de otros elementos */
-    /* Otros estilos que desees para el botón */
+
+}
+.detalle{
+  color: red;
 }
 
-    
+.agSlots{
+  display: flex;
+  justify-content: end;
+  position: fixed;
+  z-index: 1000;
+  background-color:transparent ;
+  width: 100%;
+
+}
+
+.contendedoriconosflotantes{
+  display: flex;
+  justify-content: center;
+  width: 100px;
+
+  background-color: rgb(24, 247, 91);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-right: 50px;
+  border-radius: 10%;
+  padding:3 px;
+
+}
+
+.playlist_add{
+color: aliceblue;
+
+
+
+
+}
+
+.playlist_add:hover{
+  color:black;
+
+  transition: 0.5s;
+}
+
+.storage{
+  color: aliceblue;
+}
+.storage:hover{
+color: black;
+transition: 0.5s;
+}

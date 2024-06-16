@@ -51,7 +51,7 @@ export class DialogagregarUbicacionComponent {
   }
 
   ngOnInit(): void {
-   this.llenaSelectCategoria();
+
 
    console.log("datos de ubicacion detalle :"+JSON.stringify( this.data.piso.ubicacion))
     //this.quitalosPorductosYaagregados();
@@ -67,7 +67,7 @@ export class DialogagregarUbicacionComponent {
 
   }
 
-
+/*
   addtoListapiso(codProdcuto:number){
    let numeroubicaccion= this.data.piso.ubicacion.length
 
@@ -76,9 +76,9 @@ export class DialogagregarUbicacionComponent {
     console.log("codigo ubicacion a actualizar  es :"+JSON.stringify(numeroubicaccion))
     //this.servideDetalleUbicacion.actualizaUbicaiondelDetalle(codProdcuto,)
 
-  }
+  }*/
 
-
+/*
   llenaSelectCategoria(){
 
     this.serviceCategoria.llenaSelect().subscribe(
@@ -89,8 +89,8 @@ export class DialogagregarUbicacionComponent {
     )
 
 
-  }
-
+  }*/
+/*
   //compara las los dos listas de las tablas y solo muestra en la lista productos los q no ha sido agregados
   quitalosPorductosYaagregados() {
 
@@ -104,8 +104,8 @@ export class DialogagregarUbicacionComponent {
         !codigosProductosEnUbicaciones.includes(producto.codProducto)
       );
 
-  }
-
+  }*/
+/*
   listaPorCategoria(){
        this.serviceCategoria.listaPorCategoria(this.codCategoria).subscribe(
       data => {
@@ -121,60 +121,7 @@ export class DialogagregarUbicacionComponent {
 
 
 
-  }
-/*
-  quitarProdcuto(producto:Producto){
-    console.log(producto.codProducto)
-    let productoYaexiste =this.data.piso.ubicacion.find(p=>p.productos.codProducto===producto.codProducto)
-    if(productoYaexiste){
-      console.log("existe el produto")
-      this.data.piso.ubicacion=this.data.piso.ubicacion.filter(
-        p=>p.productos.codProducto!==producto.codProducto
-
-      )
-
-      this.productos.push(producto)
-
-    }*/
-  }
-
-
-/*
-  addtoListapiso(producto:Producto){
-
-    console.log(producto.codProducto)
-
-     this.nuebaUbicacion= new Ubicacion;
-      this.nuebaUbicacion.productos=producto
-      this.data.piso.ubicacion.push(this.nuebaUbicacion)
-      //evalua si en productosexistetes ya esta añadido
-      let productoYaexiste =this.productos.find(p=>p.codProducto===producto.codProducto)
-
-      //quita de la lista de productos el producto añadido para q no se vuelba a añadir
-      if(productoYaexiste){
-        this.productos=this.productos.filter(
-          p=>p.codProducto !==producto.codProducto
-        )
-      }
-
-  }
-/*
-  guardarInfomacionEnpiso(){
-    this.pisoService.saveInformaciondePiso(this.data.piso).subscribe(
-      ()=>{
-        swal("Good job!",
-        "You clicked the button!",
-
-         "success").then(()=>{
-           this.dialofRef.close();
-         })
-       },
-
-
-
-    );
   }*/
 
-
-
+  }
 

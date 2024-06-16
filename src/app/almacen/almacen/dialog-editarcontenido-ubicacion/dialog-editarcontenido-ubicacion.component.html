@@ -8,9 +8,10 @@
         <div class="container ">
           <!--nombre del producto a cambiar-->
           <h5 class="">Producto a remplazar:</h5>
-
+         cod de ubicacion {{data.codubiToaddDet.codUbicacion}}
           @if (estadoCategoria) {
            <div class="d-flex">
+            <data value=""></data>
             <div>
             <select [(ngModel)]="codcategoria"  class="col-2 form-control" >
             @for (categoria of categoria; track $index) {
@@ -24,17 +25,20 @@
         </div>
         </div>
 
-        @for (prods of productoPorCategoria; track $index) {
+
+        @for (prods of listProdDispDTO; track $index) {
           <tr>
+            <td>{{prods.codDetalleUb}}</td>
             <td>{{prods.nombreProducto}}</td>
             <td>{{prods.codProducto}}</td>
+            <td>{{prods.ubicacionCodUbicacion}}</td>
+            <td><button (click)="agregarDeatlleEnubicacion(data.codubiToaddDet.codUbicacion,prods.codDetalleUb)" ><mat-icon>add</mat-icon></button></td>
 
-              <td><button  ><mat-icon>add</mat-icon></button></td>
-
-            </tr>
+          </tr>
 
 
         }
+
           }
 
 
@@ -62,6 +66,7 @@
                     <tr>
                       <td>{{prods.nombreProducto}}</td>
                       <td>{{prods.codProducto}}</td>
+                      <td></td>
 
                         <td><button (click)="remplazarProducto(detalle.codDetalleub, prods.codProducto)" ><mat-icon>add</mat-icon></button></td>
 

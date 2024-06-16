@@ -5,9 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { Categoria } from '../../../clieentes/models/Categoria';
+import { DtoAddDetalleubicacion } from '../../../clieentes/models/DtoAddDetalleubicacion';
 import { Piso } from '../../../clieentes/models/Piso';
 import { Producto } from '../../../clieentes/models/Productos';
 import { Ubicacion } from '../../../clieentes/models/Ubicacion';
+import { DetalleUbicaion } from '../../../clieentes/models/detalleUbicacion';
 import { BehaivorSubjectService } from '../../../clieentes/service/behaivor-subject-producto.service';
 import { DetalleubicacionService } from '../../../clieentes/service/detalleubicacion.service';
 import { ServiceAlmacenService } from '../../../clieentes/service/service-almacen.service';
@@ -25,29 +27,28 @@ export class DialogEditarcontenidoUbicacionComponent {
   ubicacion:Ubicacion =new Ubicacion();
   nombreCategoria:string[]=[]
   codcategoria!:number
-  //productosDeLasUbicaciones:Ubicacion[]=[]
-  //productosDePiso:Producto[]=[]
-  //piso:Piso=new Piso();
   categoria:Categoria[]=[];
-  //productosporCategoriaDisponibles:Producto[]=[]
-  ///////////////////////////
-  //productosDisponibles:any[]=[]
   productoPorCategoria:Producto[]=[]
   produtosFiltrados:Producto[]=[]
-  //codCategoriaDeProducto!:number;
-  //codDetalle!:number;
+      codDetalleubicacion:number[]=[]
+      listProdDispDTO:DtoAddDetalleubicacion[]=[]
+ //prodcutosdeDetalles:Producto[]=[]
 
-  ///
- prodcutosdeDetalles:Producto[]=[]
+ codUbicacion!:number;
   estadoCategoria:boolean=false;
-  constructor(@Inject(MAT_DIALOG_DATA) public data:{dataDetalleDeubicacion: Ubicacion,
+  constructor(@Inject(MAT_DIALOG_DATA) public data:{
+    dataDetalleDeubicacion: Ubicacion,
     ubicacionesDePiso:Piso,
+    codDetalle:DetalleUbicaion,
+    codubiToaddDet:Ubicacion
     },
+
     private servicioCategoria:ServiceCategoriaService,
     private serviceDetalle:DetalleubicacionService,
     private servicioAndamio:ServiceAlmacenService,
     private serviceBehaivor:BehaivorSubjectService,
     private serviceCategoria:ServiceCategoriaService,
+
     private dialofRef:DialogRef<DialogEditarcontenidoUbicacionComponent>
   ) {
 
@@ -57,6 +58,14 @@ export class DialogEditarcontenidoUbicacionComponent {
   ngOnInit(): void {
     this.obtenernombrecategoria()
     this.listaPorCategoria()
+    console.log("codgio del detalle ubicacion ---->>")
+
+    }
+
+    obtenerCodDetalleUbicacion(){
+     this.codDetalleubicacion= (this.data.dataDetalleDeubicacion.detalleUbicacion.flatMap(ubc=>ubc.codDetalleub))
+         const posison= this.data.dataDetalleDeubicacion.detalleUbicacion
+
 
     }
 
@@ -66,9 +75,6 @@ export class DialogEditarcontenidoUbicacionComponent {
 
   }
 
-
-
-
   listacategoria(){
     this.serviceCategoria.llenaSelect().subscribe(datacategorias=>{
       this.categoria=datacategorias
@@ -77,7 +83,18 @@ export class DialogEditarcontenidoUbicacionComponent {
 
 }
 
+agregarDeatlleEnubicacion(codubicacion:number, coddetalleub:number){
 
+  this.serviceDetalle.agregarDetalleaubicacionvacia(codubicacion,coddetalleub).subscribe(
+    ()=>{
+      this.actulaizarAndamios();
+      this.productosDisponibles(this.codcategoria);
+    }
+  )
+
+
+
+}
 
   listaPorCategoria(){
 
@@ -87,7 +104,6 @@ export class DialogEditarcontenidoUbicacionComponent {
         this.estadoCategoria=true;
         this.listacategoria();
 
-       // this.quitalosPorductosYaagregados();
 
     }else{
       this.servicioCategoria.listaPorCategoria(cod).subscribe(
@@ -100,23 +116,14 @@ export class DialogEditarcontenidoUbicacionComponent {
     }
 
 
-        /*this.serviceCategoria.llenaSelect().subscribe(datacategorias=>{
-          this.categoria=datacategorias
-
-        })
-*/
-
-
-
-
 }
 //compara la lista de losproductos en el piso y productos por catgpria y obtiene los q no se agregaron
 quitalosPorductosYaagregados(){
   const codigosProductosEnUbicaciones = this.data.ubicacionesDePiso.ubicacion.flatMap(
     ubicacion => ubicacion.detalleUbicacion.map(detalle => detalle.productos.codProducto))
 
-  this.productoPorCategoria=this.productoPorCategoria.filter
-  (prod=>!codigosProductosEnUbicaciones.includes(prod.codProducto))
+  this.productoPorCategoria=this.productoPorCategoria
+  .filter(prod=>!codigosProductosEnUbicaciones.includes(prod.codProducto))
 
 }
 
@@ -125,7 +132,7 @@ remplazarProducto(coddetalle:number,codProdcuto:number){
 // aquien en este metodo despues de guardar debe actualizar los andamios
 console.log("cod ubicacion : "+coddetalle+" cod producto "+codProdcuto)
 
-  this.serviceDetalle.actualizaUbicaiondelDetalle(coddetalle,codProdcuto).subscribe(()=>{
+  this.serviceDetalle.remplazarProducto(coddetalle,codProdcuto).subscribe(()=>{
     alert("se actualizo producto")
 
     this.actulaizarAndamios();
@@ -146,23 +153,21 @@ console.log("cod ubicacion : "+coddetalle+" cod producto "+codProdcuto)
 prodcutosPorcategoria(codcategoria:number){
   this.serviceCategoria.listaPorCategoria(codcategoria).subscribe(dataProd=>{
    this.productoPorCategoria=dataProd.productos
-
    const prodcutosdeDetalles:number[]=this.data.ubicacionesDePiso.ubicacion
    .flatMap(datamap=>datamap.detalleUbicacion.map(dataProd=>dataProd.productos.codProducto))
-
     this.productoPorCategoria=this.productoPorCategoria.filter(prodCate=>!
       prodcutosdeDetalles.includes(prodCate.codProducto))
-
-    console.log("producto por categoria ---> "+ JSON.stringify(this.productoPorCategoria)+this.productoPorCategoria.length)
-
-
-      console.log("productos de los pisos:" +JSON.stringify(this.prodcutosdeDetalles)+"cantidad-->"+this.prodcutosdeDetalles.length)
-
-
+      console.log("codigo de categoria es :"+JSON.stringify(codcategoria))
   })
-
-
+  this.productosDisponibles(codcategoria);
 }
+ productosDisponibles(codcategoria:number){
+
+  this.serviceDetalle.getdDTOetalleDisponibles(codcategoria).subscribe(dataprod=>{
+    this.listProdDispDTO=dataprod
+  })
+ }
+
 }
 
 

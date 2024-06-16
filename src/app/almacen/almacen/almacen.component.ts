@@ -39,7 +39,7 @@ export class AlmacenComponent {
   detalleubicacion:DetalleUbicaion =new DetalleUbicaion()
  //detalleub:DetalleUbicaion[]=[]
   productodeDetalleubicacion:Producto[]=[]
-  codUbicacion!:number;
+  codUbicacionparaasignarDetalle: Ubicacion=new Ubicacion();
 
 
   constructor(private service:ServiceAlmacenService,
@@ -59,7 +59,7 @@ export class AlmacenComponent {
         });
 
         this.listarAndamio();
-        this.listaDetalledeUbicacion();
+       /// this.listaDetalledeUbicacion();
       }
 
   //abre el dialgog y envia la informacion al componente traido
@@ -110,22 +110,22 @@ export class AlmacenComponent {
     )
   }
 
-  editarContenidoUbicacion(codubicacion:Ubicacion,piso:Piso){
-    this.selectUbicacion={...codubicacion}
+  editarContenidoUbicacion(codubicacion:Ubicacion,piso:Piso,codUbitoAgregar:Ubicacion){
+    this.selectUbicacion={...codubicacion}///envia datos deatlle
     this.piso={...piso}
-
-
+    this.codUbicacionparaasignarDetalle={ ...codUbitoAgregar}
 
     this.dialog.open(DialogEditarcontenidoUbicacionComponent,{
       width:"300px",
       height:"400px",
       data: {
         dataDetalleDeubicacion:this.selectUbicacion,
-
-        ubicacionesDePiso:this.piso
+          ubicacionesDePiso:this.piso,
+          codubiToaddDet:this.codUbicacionparaasignarDetalle
       },
 
     })
+   // console.log("codigo de ubicacion en alamacen"+JSON.stringify(codDetalle))
 
   }
 
@@ -133,7 +133,7 @@ export class AlmacenComponent {
     this.serviceDetalle.listardetalledeubicacion().subscribe(data=>{
    //   this.detalleub=data
 
-     // console.log("data de ubicacion detalle  es : " + JSON.stringify(this.detalleubicacion) )
+
     })
   }
 

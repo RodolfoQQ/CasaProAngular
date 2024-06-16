@@ -1,15 +1,50 @@
 <div class="">
-    <button (click)="productosSinubicacion()" class="ProductosSinUbicacion btn-success " mat-fab color="warn"><mat-icon>storage</mat-icon></button>
 
+    <div class="agSlots">
+      <div>
+
+      </div>
+      <div class="contendedoriconosflotantes">
+        <div><button> <mat-icon class="playlist_add">playlist_add</mat-icon></button>  </div>
+        <div><button (click)="productosSinubicacion()" class="ProductosSinUbicacion "><mat-icon class="storage">storage</mat-icon></button></div>
+
+      </div>
+
+    </div>
      @for (andamio of andamios; track $index) {
 
+      <div class="andamio">
+        {{andamio.codAndamio}}
+        @for (piso of andamio.piso; track $index) {
+          <div class="piso">
 
-      @if(andamio.codAndamio==3){
-      }@else {
-        <div class="andamio"> {{andamio.codAndamio}}
+            @for (ubicacion of piso.ubicacion; track $index) {
+             <div class="ubicacion">
+              {{ubicacion.codUbicacion}}
+              <button (click)="editarContenidoUbicacion(ubicacion,piso,ubicacion)"><mat-icon>add</mat-icon>   </button>
+                <div class="detalle">
+                @for (detalle of ubicacion.detalleUbicacion; track $index) {
+                  {{detalle.codDetalleub}}
+
+                  <button (click)="editarContenidoUbicacion(ubicacion,piso,ubicacion)"><mat-icon>update</mat-icon></button>
+
+                }
+              </div>
 
 
-            @for (piso of andamio.piso; track $index) {
+             </div>
+          }
+          </div>
+
+        }
+      </div>
+
+     }
+</div>
+
+<!---
+
+@for (piso of andamio.piso; track $index) {
 
 
                 <div class="d-flex piso">
@@ -17,27 +52,36 @@
                     @for (ubicacion of piso.ubicacion; track $index) {
 
                         <div class="ubicacion d-flex justify-content-between text-white">
-                         <button (click)="editarContenidoUbicacion(ubicacion,piso)" ><mat-icon class="addDetalleonUbicacion">add</mat-icon> </button>
 
-                            @for (detalle of ubicacion.detalleUbicacion; track $index) {
+                         <button (click)="editarContenidoUbicacion(ubicacion,piso)" >
+                          <div>
+                          @for (detalle of ubicacion.detalleUbicacion; track $index) {
+                            {{detalle.ubicacion.codUbicacion}}
+                            {{detalle.productos.nombreProducto}}
+
+                          }
+                          </div>
+                          <mat-icon class="addDetalleonUbicacion">add</mat-icon> </button>
+
+                           -@for (detalle of ubicacion.detalleUbicacion; track $index) {
+
+
                                       <div class="">
                                     @if (detalle.ubicacion.codUbicacion==11) {
+                                          <span> din prdcuto</span>
                                     }@else {
                                         {{detalle.productos.nombreProducto}}
-                                        {{detalle.codDetalleub}}
-                                        {{detalle.ubicacion.codUbicacion}}
+
+                                         {{detalle.ubicacion.codUbicacion}}
                                     }
 
                                 </div>
 
                             }
 
-                        </div>
-                    }
-                </div>
-            }
-        </div>
-    }
-      }
+                          </div>
+                        }
+                    </div>
+                }
 
-</div>
+-->
