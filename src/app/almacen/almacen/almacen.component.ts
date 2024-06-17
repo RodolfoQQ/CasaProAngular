@@ -129,6 +129,15 @@ export class AlmacenComponent {
 
   }
 
+  quistardetalleaubicacion(codDetalleub:number):void{
+      this.service.actualizaDetallenVacio(codDetalleub).subscribe(
+        ()=>{
+
+          this.listarAndamio();
+        }
+      )
+  }
+
   listaDetalledeUbicacion(){
     this.serviceDetalle.listardetalledeubicacion().subscribe(data=>{
    //   this.detalleub=data
@@ -152,5 +161,27 @@ export class AlmacenComponent {
       this.dialog.open(DialogProdcutosSinUbicacionComponent,{
 
       })
+  }
+
+  agregarAndamio(){
+
+    this.service.agregarAndamio().subscribe(
+      ()=>{
+        alert("se agrego andamio")
+          this.listarAndamio()
+      }
+    )
+
+  }
+
+
+  eliminarAndamio(codandamio:number){
+    this.service.eliminarAndamioyRelaciones(codandamio).subscribe(
+      ()=>{
+        alert("se elimino andamio")
+        this.listarAndamio();
+      }
+    )
+
   }
 }

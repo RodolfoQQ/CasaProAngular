@@ -5,39 +5,49 @@
 
       </div>
       <div class="contendedoriconosflotantes">
-        <div><button> <mat-icon class="playlist_add">playlist_add</mat-icon></button>  </div>
+        <div><button (click)="agregarAndamio()"> <mat-icon class="playlist_add">playlist_add</mat-icon></button>  </div>
         <div><button (click)="productosSinubicacion()" class="ProductosSinUbicacion "><mat-icon class="storage">storage</mat-icon></button></div>
 
       </div>
 
     </div>
      @for (andamio of andamios; track $index) {
+      @if (andamio.codAndamio !==3) {
+        <div class="andamio">
+          <button (click)="eliminarAndamio(andamio.codAndamio)"> <mat-icon> deleted</mat-icon> </button>
+          {{andamio.codAndamio}}
+          @for (piso of andamio.piso; track $index) {
+            <div class="piso">
 
-      <div class="andamio">
-        {{andamio.codAndamio}}
-        @for (piso of andamio.piso; track $index) {
-          <div class="piso">
+              @for (ubicacion of piso.ubicacion; track $index) {
+               <div class="ubicacion">
 
-            @for (ubicacion of piso.ubicacion; track $index) {
-             <div class="ubicacion">
-              {{ubicacion.codUbicacion}}
-              <button (click)="editarContenidoUbicacion(ubicacion,piso,ubicacion)"><mat-icon>add</mat-icon>   </button>
-                <div class="detalle">
-                @for (detalle of ubicacion.detalleUbicacion; track $index) {
-                  {{detalle.codDetalleub}}
+                  <div class="detalle">
+                    @for (detalle of ubicacion.detalleUbicacion; track $index) {
+                      {{detalle.codDetalleub}}
+                      {{detalle.productos.nombreProducto}}
+                      <button (click)="quistardetalleaubicacion(detalle.codDetalleub)"><mat-icon class="iconoActualizar">close</mat-icon>   </button>
 
-                  <button (click)="editarContenidoUbicacion(ubicacion,piso,ubicacion)"><mat-icon>update</mat-icon></button>
+                    }
+                  </div>
 
-                }
-              </div>
+                <div>
 
+               <!-- {{ubicacion.codUbicacion}} -->
+               <button (click)="editarContenidoUbicacion(ubicacion,piso,ubicacion)"><mat-icon class="iconoActualizar">refresh</mat-icon>   </button>
 
-             </div>
+                 </div>
+
+               </div>
+            }
+            </div>
+
           }
-          </div>
+        </div>
+      }@else{
 
-        }
-      </div>
+      }
+
 
      }
 </div>

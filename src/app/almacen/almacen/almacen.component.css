@@ -25,12 +25,15 @@ button{
 
 .ubicacion{
     background-color: rgba(24, 28, 109, 0.5);
-    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
     height: 90%;
     width: 10%;
-    margin: 2px;
+    margin: 1px;
     border-radius: 8%;
 }
+
 
 
 .iconDelet{
@@ -111,3 +114,11 @@ color: aliceblue;
 color: black;
 transition: 0.5s;
 }
+.iconoActualizar{
+  padding: 0px;
+  margin: 0px;
+  color: rgb(206, 228, 248);
+
+}
+
+
