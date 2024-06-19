@@ -32,10 +32,11 @@ export class DialogEditarcontenidoUbicacionComponent {
   produtosFiltrados:Producto[]=[]
       codDetalleubicacion:number[]=[]
       listProdDispDTO:DtoAddDetalleubicacion[]=[]
- //prodcutosdeDetalles:Producto[]=[]
+      estadoCategoria:boolean=false
+      mensaje:boolean=false;
 
  codUbicacion!:number;
-  estadoCategoria:boolean=false;
+
   constructor(@Inject(MAT_DIALOG_DATA) public data:{
     dataDetalleDeubicacion: Ubicacion,
     ubicacionesDePiso:Piso,
@@ -89,6 +90,8 @@ agregarDeatlleEnubicacion(codubicacion:number, coddetalleub:number){
     ()=>{
       this.actulaizarAndamios();
       this.productosDisponibles(this.codcategoria);
+      this.dialofRef.close()
+
     }
   )
 
@@ -101,7 +104,7 @@ agregarDeatlleEnubicacion(codubicacion:number, coddetalleub:number){
     const cod: number = Number(this.data.dataDetalleDeubicacion.detalleUbicacion.find(det => det.productos.categoria.codCategoria)?.productos.categoria.codCategoria);
   ///evalua si en detalle de la ubicacion hay detalledeubicaion, si no lo hay muestra un select
     if(isNaN(cod)){
-        this.estadoCategoria=true;
+      this.estadoCategoria=true;
         this.listacategoria();
 
 
@@ -109,8 +112,9 @@ agregarDeatlleEnubicacion(codubicacion:number, coddetalleub:number){
       this.servicioCategoria.listaPorCategoria(cod).subscribe(
         resul => {
           this.productoPorCategoria = resul.productos
-
-         this.quitalosPorductosYaagregados()
+        // el metodo quitar prodcuto esta para evaluar si se quita ya que se implemteno desde  la
+        //base de datos una cosulta q lista los qe
+          this.quitalosPorductosYaagregados()
        });
 
     }
@@ -153,11 +157,14 @@ console.log("cod ubicacion : "+coddetalle+" cod producto "+codProdcuto)
 prodcutosPorcategoria(codcategoria:number){
   this.serviceCategoria.listaPorCategoria(codcategoria).subscribe(dataProd=>{
    this.productoPorCategoria=dataProd.productos
+   console.log( "datos de categoria><<" +JSON.stringify(this.productoPorCategoria))
    const prodcutosdeDetalles:number[]=this.data.ubicacionesDePiso.ubicacion
    .flatMap(datamap=>datamap.detalleUbicacion.map(dataProd=>dataProd.productos.codProducto))
     this.productoPorCategoria=this.productoPorCategoria.filter(prodCate=>!
       prodcutosdeDetalles.includes(prodCate.codProducto))
       console.log("codigo de categoria es :"+JSON.stringify(codcategoria))
+
+
   })
   this.productosDisponibles(codcategoria);
 }
@@ -165,6 +172,12 @@ prodcutosPorcategoria(codcategoria:number){
 
   this.serviceDetalle.getdDTOetalleDisponibles(codcategoria).subscribe(dataprod=>{
     this.listProdDispDTO=dataprod
+    if (this.listProdDispDTO.length>0){
+      this.mensaje=true
+
+    }else{
+      this.mensaje=false
+    }
   })
  }
 

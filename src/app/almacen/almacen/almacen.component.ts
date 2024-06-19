@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
@@ -24,7 +24,7 @@ import { DialogagregarUbicacionComponent } from './dialogagregar-ubicacion/dialo
 @Component({
   selector: 'app-almacen',
   standalone: true,
-  imports: [NgFor, NgIf, MatButtonModule, MatIcon,MatIconButton,FormsModule],
+  imports: [NgFor, NgIf, MatButtonModule, MatIcon,MatIconButton,FormsModule, NgClass],
   templateUrl: './almacen.component.html',
   styleUrl: './almacen.component.css'
 })
@@ -59,7 +59,7 @@ export class AlmacenComponent {
         });
 
         this.listarAndamio();
-       /// this.listaDetalledeUbicacion();
+
       }
 
   //abre el dialgog y envia la informacion al componente traido
@@ -71,6 +71,19 @@ export class AlmacenComponent {
 
 
     })
+  }
+
+  determinaClasededetalleStock(stock:number){
+
+      if(stock>80){
+        return'bien'
+
+      } else if (stock>=40 && stock<=80){
+        return'aceptable'
+
+      }else{
+        return'peligro'
+      }
   }
 
 
