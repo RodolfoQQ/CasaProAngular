@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { ClieentesComponent } from './clieentes/clieentes.component';
-import { FormComponent } from './clieentes/form/form.component';
-import { NgIf } from '@angular/common';
+import { Component } from "@angular/core"
+import { ActivatedRoute, Router, RouterOutlet } from "@angular/router"
+
 
 @Component({
   selector: 'app-rootClientes',
   standalone: true,
-  imports: [NgIf, RouterOutlet, RouterLink, ClieentesComponent, FormComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 
 export class AppComponent {
+
+  constructor(private router:Router,
+    private route:ActivatedRoute
+  ){}
+
 }

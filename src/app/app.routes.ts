@@ -1,22 +1,31 @@
 import { Routes } from '@angular/router';
-import { ClieentesComponent } from './clieentes/clieentes.component';
-import { ProvedoresComponent } from './provedores/provedores.component';
-import { FormComponent } from './clieentes/form/form.component';
-import { ProductoComponent } from './producto/producto.component';
+
+import { authGuard } from './auth.guard';
+import { LoginComponent } from './auth/login/login.component';
 import { CustodioComponent } from './custodio/custodio.component';
-import { PedidoComponent } from './pedido/pedido.component';
-import { FormPedidoComponent } from './pedido/form-pedido/form-pedido.component';
-import { EntregapedidoComponent } from './entregapedido/entregapedido.component';
-import { AlmacenComponent } from './almacen/almacen/almacen.component';
+import { AlmacenComponent } from './dahsboard/almacen/almacen.component';
+import { ClieentesComponent } from './dahsboard/clieentes/clieentes.component';
+import { DahsboardComponent } from './dahsboard/dahsboard.component';
+import { EntregapedidoComponent } from './dahsboard/entregapedido/entregapedido.component';
+import { FormPedidoComponent } from './dahsboard/form-pedido/form-pedido.component';
+import { ProductoComponent } from './dahsboard/producto/producto.component';
+import { PagenotfoudComponent } from './pagenotfoud/pagenotfoud.component';
+import { ProvedoresComponent } from './provedores/provedores.component';
 
 export const routes: Routes = [
-    {path:'clientes',component: ClieentesComponent},
-    {path:'provedores',component: ProvedoresComponent},
-    {path:'producto', component: ProductoComponent},
-    {path:'custodio', component: CustodioComponent},
-    {path:'pedido', component:FormPedidoComponent},
-    {path:'entregatienda',component:EntregapedidoComponent},
-    {path:'almacen', component:AlmacenComponent}
-    
-    
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DahsboardComponent,
+    canActivate:[authGuard],
+    children: [
+      { path: 'clientes', component: ClieentesComponent },
+      { path: 'provedores', component: ProvedoresComponent },
+      { path: 'producto', component: ProductoComponent },
+      { path: 'custodio', component: CustodioComponent },
+      { path: 'pedido', component: FormPedidoComponent },
+      { path: 'listaPedidos', component: EntregapedidoComponent },
+      { path: 'almacen', component: AlmacenComponent },
+    ]
+  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', component: PagenotfoudComponent }
 ];
