@@ -1,0 +1,81 @@
+
+<app-form
+ (nuevoClienteEmpresa)="addClienteEmpresa($event)"[clienteempresa]="empresaSelected"
+ (cambiohabilitartabla)="onMostrarTabla($event)"
+ (personaNew)="addpersontotabla($event)" [personas]="personaSeled"
+></app-form>
+
+   <div *ngIf="tablaEmpresa;else tablaPersona">
+
+    <div class="my-4 container">
+        <h4>Lista Clientes tipo Empresa</h4>
+    <table class="table table-hover table-rounded table-bordered">
+        <thead>
+            <tr class="">
+                <th class="text-muted">Nombres empresa</th>
+                <th class="text-muted">Ruc</th>
+                <th class="text-muted">direccion</th>
+                <th class="text-muted">Telf</th>
+                <th class="text-muted">Correo</th>
+                <th class="text-center" colspan="2">Acciones</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (item of empresas; track $index) {
+
+            <tr  >
+                <td >{{item.nombre}}</td>
+                <td>{{item.ruc}}</td>
+                <td>{{item.direccion}}</td>
+                <td>{{item.telefono}}</td>
+                <td>{{item.correo}}</td>
+
+                <th class="text-center"> <button (click)="onUpdate(item)"  class="btn btn-warning" >Actualizar</button></th>
+                <th class="text-center"><button (click)="onDelete(item.codEmpresa)" class=" btn btn-danger text-center">Eliminar</button></th>
+            </tr>
+
+            }
+
+        </tbody>
+    </table>
+</div>
+   </div>
+
+
+
+   <ng-template #tablaPersona>
+
+    <div class="my-4 container">
+        <h4>Lista Clientes tipo Persona</h4>
+    <table class="table table-hover table-rounded table-bordered">
+        <thead>
+            <tr class="">
+                <th class="text-muted">Nombres</th>
+                <th class="text-muted">Apellidos</th>
+                <th class="text-muted">DNI</th>
+                <th class="text-muted">Telf</th>
+                <th class="text-muted">Correo</th>
+                <th class="text-muted">direccion</th>
+                <th class="text-center" colspan="2">Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of personas">
+                <td>{{item.nombre}}</td>
+                <td>{{item.apellidos}}</td>
+                <td>{{item.dni}}</td>
+                <td>{{item.telefono}}</td>
+                <td>{{item.correo}}</td>
+                <td>{{item.direccion}}</td>
+
+                <th class="text-center"> <button class="btn btn-warning"(click)="onUpdateClientePersona(item)" >Actualizar</button></th>
+                <th class="text-center"><button class=" btn btn-danger text-center" (click)="onDeletedRow(item.codpersona)" >Eliminar</button></th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+   </ng-template>
+

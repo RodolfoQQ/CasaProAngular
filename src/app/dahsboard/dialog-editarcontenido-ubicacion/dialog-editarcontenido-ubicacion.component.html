@@ -1,0 +1,94 @@
+<div class="">
+    <div class="">
+     <div *ngIf="ubicacion; else noProducto" >
+        <div class="navbar bg-primary text-white">
+          <h5>@for (nombrecategoria of nombreCategoria ; track $index) {
+            {{nombrecategoria}}}</h5>
+        </div>
+        <div class="container ">
+          <!--nombre del producto a cambiar-->
+          <h5 class="">Producto a remplazar:</h5>
+         cod de ubicacion {{data.codubiToaddDet.codUbicacion}}
+          @if (estadoCategoria) {
+           <div class="d-flex">
+            <data value=""></data>
+            <div>
+            <select [(ngModel)]="codcategoria"  class="col-2 form-control" >
+            @for (categoria of categoria; track $index) {
+              <option value="{{categoria.codCategoria}}">{{categoria.nombrCategoria}}</option>
+            }
+          </select>
+        </div>
+        <div>
+
+          <button class="btn-select btn btn-success"(click)="prodcutosPorcategoria(codcategoria)" >filtrar</button>
+        </div>
+        </div>
+
+        @for (prods of listProdDispDTO; track $index) {
+          <tr>
+            <td>{{prods.codDetalleUb}}</td>
+            <td>{{prods.nombreProducto}}</td>
+            <td>{{prods.codProducto}}</td>
+            <td>{{prods.ubicacionCodUbicacion}}</td>
+            <td><button (click)="agregarDeatlleEnubicacion(data.codubiToaddDet.codUbicacion,prods.codDetalleUb)" ><mat-icon>add</mat-icon></button></td>
+
+          </tr>
+
+
+        }
+
+          }
+
+
+            @for (detalle of data.dataDetalleDeubicacion.detalleUbicacion; track $index) {
+                {{detalle.productos.nombreProducto}}
+                <br>
+                <span>cod ubicacion del detallae :</span> {{detalle.codDetalleub}}
+
+
+          <div class="">Productos disponibles: </div>
+          <div class="d-flex justify-content-center ">
+
+            <ng-container>
+
+              <table>
+                <thead>
+                  <th>
+                    <tr></tr>
+                  </th>
+
+                </thead>
+                <tbody>
+
+                  @for (prods of productoPorCategoria; track $index) {
+                    <tr>
+                      <td>{{prods.nombreProducto}}</td>
+                      <td>{{prods.codProducto}}</td>
+
+                      <td></td>
+
+                        <td><button (click)="remplazarProducto(detalle.codDetalleub, prods.codProducto)" ><mat-icon>add</mat-icon></button></td>
+
+                      </tr>
+
+
+                  }
+
+
+                </tbody>
+              </table>
+            </ng-container>
+          </div>
+
+
+        }
+
+        </div>
+      </div>
+
+      <ng-template #noProducto>
+        <h1>Producto no encontrado</h1>
+      </ng-template>
+    </div>
+  </div>

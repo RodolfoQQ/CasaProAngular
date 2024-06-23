@@ -1,0 +1,19 @@
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 100,
+  'wght' 400,
+  'GRAD' 100,
+  'opsz' 1000
+}
+
+.grupo-buscar-cliente{
+  border: none;
+  background-color: transparent;
+}
+.custon-btn-buscar{
+  background-color: transparent;
+  border: none; 
+  cursor: pointer; 
+}
+

@@ -1,0 +1,38 @@
+
+/* Estilos base para la tabla */
+.tabla-personalizada {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 5px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Estilos para las cabeceras de la tabla */
+  .tabla-personalizada th {
+    background-color: #4CAF50;
+    color: white;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  /* Estilos para las celdas de la tabla */
+  .tabla-personalizada td {
+    padding: 8px;
+    border-bottom: 1px solid #f8cece;
+  }
+  
+  /* Estilos para las filas de la tabla con la clase 'entregado' */
+  .entregado {
+    background-color: #defaeb;
+  }
+  
+  /* Estilos para las filas de la tabla con la clase 'pendiente' */
+  .pendiente {
+    background-color: #ffcccb;
+  }
+  
+  /* Estilos para las filas al pasar el mouse */
+  .tabla-personalizada tr:hover {
+    background-color: #ddd;
+  }
+  

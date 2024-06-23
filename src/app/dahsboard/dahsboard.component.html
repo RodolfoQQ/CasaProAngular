@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-sm   ">
+  <div class="contennavbar">
+  <div class="">
+    <ul class="navbar-nav ">
+
+      <li class="">
+
+        <a type="button" class="" (click)="irProductos()">
+          <mat-icon> handyman</mat-icon></a>
+        <p>Productos</p>
+
+      </li>
+      <li class="">
+        <a class="" type="button" (click)="irPedido()">
+          <mat-icon>shopping_cart_checkout </mat-icon>
+          <p>Pedidos</p>
+        </a>
+      </li>
+
+
+      <li class="">
+        <a class="" type="button" (click)="irListado()">
+          <mat-icon>list_alt </mat-icon>
+          <p>Listado</p>
+        </a>
+      </li>
+
+
+      <li class="">
+        <a class="" type="button" (click)="irCliente()">
+          <mat-icon>group_add </mat-icon>
+          <p>Cliente</p>
+        </a>
+      </li>
+      <li class="">
+        <a class="" type="button" (click)="irAlmacen()">
+          <mat-icon>warehouse </mat-icon>
+          <p>almacen</p>
+        </a>
+
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <button (click)="salir()" ><mat-icon class="logout">logout</mat-icon></button>
+  </div>
+</div>
+</nav>
+
+<router-outlet></router-outlet>

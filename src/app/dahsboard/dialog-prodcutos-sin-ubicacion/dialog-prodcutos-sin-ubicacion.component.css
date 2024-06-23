@@ -1,0 +1,15 @@
+.dialog-content{
+background-color: aquamarine;
+}
+
+.mat-card{
+  background: blueviolet;
+}
+
+.titulo{
+
+  font-size: 20px;
+  color: aliceblue;
+  block-size: 60px;
+
+}

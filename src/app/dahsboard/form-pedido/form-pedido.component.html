@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="d-flex my-5 grupo-buscar-cliente">
+        <div class="">
+            <div>
+                <mat-form-field class="mat-form-field">
+                    <mat-label>Cliente</mat-label>
+                    <div class="d-flex">
+                        <input matInput [(ngModel)]="rucODni" name="rucODni" type="text" placeholder=" RUC del Cliente">
+                        <button class=" custon-btn-buscar" (click)="findCliente()" type="submit">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </div>
+                </mat-form-field>
+
+
+                <form action="">
+                    <div class="">
+                        <mat-form-field>
+                            <mat-label>Productos</mat-label>
+                            <input type="text" placeholder="Nombre del producto" matInput
+                                [formControl]="autocompleteControl" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarnombre"
+                                (optionSelected)="selectedProducto($event)">
+
+                                @for (productos of productosFiltrados | async; track productos) {
+                                <mat-option [value]="productos">{{productos.nombreProducto}}</mat-option>
+                                }
+
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+        <form>
+
+            <div>
+
+               
+            </div>
+            <div>
+                <div class="card mx-5 ">
+                    <div *ngIf="showCliente; else esleTemplateCliente ">  
+                            <div class="card-header bg-success text-white d-flex justify-content-between">
+                                <div>{{clientePersona.nombre}}</div>
+                                <div ><button mat-icon-button (click)="openDireccion(pedidoFactura)">
+                                    <mat-icon>local_shipping</mat-icon>
+                                </button></div>
+                           </div>
+                    </div>
+
+                    <ng-template #esleTemplateCliente >
+                        <div class="alert alert-primary" role="alert">
+                            <strong> ingrese un cliente!</strong> 
+                        </div>
+                    </ng-template>
+
+
+
+                    <div *ngIf="showTable; else elseTemplatelista">
+                        <table class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Categoria</th>
+                                    <th>descripcion</th>
+                                    <th>cantidad</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of pedidoFactura.rowPedidos; track $index) {
+                                <tr>
+                                    <td colspan="1">{{item.producto.nombreProducto}}</td>
+                                    <td>{{item.producto.categoria.nombrCategoria}}</td>
+                                    <td colspan="1">{{item.producto.descripcion}}</td>
+                                    <td colspan="2">
+                                        <div class="col-sm-5">
+                                            <input type="number" class="form-control" [(ngModel)]="item.cantidad"
+                                                name="cantidadPorMayor" min="1"  >
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        <button mat-icon-button color="warn" class="mat-icon-button-sm"
+                                            (click)="deletedRow(item.producto.nombreProducto)">
+                                            <mat-icon>deleted</mat-icon>
+                                        </button>
+                                    </td>
+
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-end ">
+                            <div class="card m-2 p-2">
+                                <div class="d-flex">
+                                    Total: <span>1586</span>
+                                </div>
+                                <button mat-icon-button (click)="guardarpedido()">
+                                    <mat-icon class="mat-icon-lg">save</mat-icon>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <ng-template #elseTemplatelista>
+                        <div class="alert alert-info"><strong>No tiene produtos seleccionados! </strong> </div>
+                    </ng-template>
+
+                    </div>
+            </div>
+
+
+            
+
+        </form>
+    </div>
+
+</div>

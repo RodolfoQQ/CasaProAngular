@@ -1,0 +1,27 @@
+<div>
+  <nav class="titulo bg bg-primary">
+    Productos sin ubicacion
+  </nav>
+  <mat-dialog-content class="dialog-content">
+    <table>
+      <thead>
+        <th></th>
+      </thead>
+      <tbody>
+
+        @for (list of listadetallessinubicacion; track $index) {
+          <tr>
+              <td>{{list.nombreproducto}}</td>
+              <td>{{list.nombrcategoria}}</td>
+
+
+          </tr>
+
+        }
+      </tbody>
+    </table>
+
+
+  </mat-dialog-content>
+
+</div>

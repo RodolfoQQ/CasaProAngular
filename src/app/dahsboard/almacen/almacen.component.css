@@ -1,0 +1,144 @@
+button{
+    background-color: transparent;
+    border: none;
+
+    color: rgb(248, 248, 243);
+}
+
+.andamio{
+    justify-content: center;
+    flex-direction: column;
+    height: 400px;
+    background-color:rgb(32, 58, 107);
+    margin: 4px;
+
+}
+.piso{
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+    background-color: rgb(45, 79, 143);
+    height: 30%;
+    width: 100%;
+    margin: 2px;
+    color: aliceblue;
+}
+
+.ubicacion{
+    background-color: rgba(24, 28, 109, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 90%;
+    width: 10%;
+    margin: 1px;
+    border-radius: 8%;
+}
+
+
+
+.iconDelet{
+    color: rgb(146, 145, 147);;
+}
+
+.iconDelet:hover{
+    color: rgb(252, 1, 31);
+    transition: 0.2s;
+
+}
+.editarPiso{
+   color: rgb(146, 145, 147);
+
+}
+
+.editarPiso:hover{
+    color: chartreuse;
+
+
+}
+.contenidoPisoubicacion{
+    color:rgb(146, 145, 147);
+
+}
+.contenidoPisoubicacion:hover{
+    color: chartreuse;
+}
+
+
+.agSlots{
+  display: flex;
+  justify-content: end;
+  position: fixed;
+  z-index: 1000;
+  background-color:transparent ;
+  width: 100%;
+
+}
+
+.contendedoriconosflotantes{
+  display: flex;
+  justify-content: center;
+  width: 100px;
+
+  background-color: rgb(24, 247, 91);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-right: 50px;
+  border-radius: 10%;
+  padding:3 px;
+
+}
+
+.playlist_add{
+color: aliceblue;
+
+
+
+
+}
+
+.playlist_add:hover{
+  color:black;
+
+  transition: 0.5s;
+}
+
+.storage{
+  color: aliceblue;
+}
+.storage:hover{
+color: black;
+transition: 0.5s;
+}
+.iconoActualizar{
+  padding: 0px;
+  margin: 0px;
+  color: rgb(206, 228, 248);
+
+}
+
+
+
+.peligro{
+  display: flex;
+  justify-content: center;
+ height: 30px;
+  background: red;
+  border-radius: 10px;
+}
+.bien{
+  display: flex;
+  justify-content: center;
+ height: 30px;
+  background: rgb(45, 189, 74);
+  border-radius: 10px;
+}
+
+.aceptable{
+  display: flex;
+  justify-content: center;
+ height: 30px;
+  background: rgb(255, 123, 0);
+  border-radius: 10px;
+}
