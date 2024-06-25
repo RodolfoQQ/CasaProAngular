@@ -1,5 +1,6 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ClienteServiceService } from '../../service/cliente.service.service';
 import { PersonaServiceService } from '../../service/persona-service.service';
 import { FormComponent } from '../formPersona/form.component';
@@ -8,7 +9,7 @@ import { ClientePersona } from '../models/clientePersona';
 @Component({
   selector: 'app-clieentes',
   standalone: true,
-  imports: [FormComponent,NgIf, NgFor],
+  imports: [FormComponent,NgIf, NgFor,FormsModule],
   templateUrl: './clieentes.component.html',
   styleUrl: './clieentes.component.css'
 })
@@ -21,15 +22,22 @@ export class ClieentesComponent {
   empresaSelected: Cliente=new Cliente();
   personanew:ClientePersona=new ClientePersona();
   tablaEmpresa: boolean=false;
+  personas:ClientePersona=new ClientePersona();
+  personaslist: ClientePersona[]=[];
 
-  personas: ClientePersona[]=[];
+  error:any={}
 
   constructor(private service:ClienteServiceService, private servicePersona:PersonaServiceService){}
 
     ngOnInit(): void {
       //this.service.findallOf().subscribe(dataof =>this.empresas=dataof)
       this.service.findall().subscribe(data =>this.empresas=data)
-      this.servicePersona.findallPersonas().subscribe(data=>this.personas=data)
+      this.listatodasPersonas();
+
+    }
+
+    listatodasPersonas(){
+      this.servicePersona.findallPersonas().subscribe(data=>this.personaslist=data)
 
     }
 
@@ -84,7 +92,7 @@ export class ClieentesComponent {
       if(data.codpersona>0){
         this.servicePersona.updatePersona(data).subscribe(persnew=>{
 
-            this.personas=this.personas.map(pers=>{
+            this.personaslist=this.personaslist.map(pers=>{
 
                       if(pers.codpersona==data.codpersona){
                         return { ...persnew}
@@ -97,34 +105,36 @@ export class ClieentesComponent {
 
       }
       else{
-            /*this.servicePersona.guardarPersona(data).subscribe(()=>{
 
-              this.servicePersona.findallPersonas().subscribe(data=>{this.personas=data})
 
-            })*/
-              this.servicePersona.guardarPersona(data).subscribe(
-                {
-                  next:()=>{
-                    this.servicePersona.findallPersonas().subscribe(
-                      datapersona=>{
-                        this.personas=datapersona
-                      }
-                    )
 
-                  },error:(err)=>{
-                      console.log(err.error);
-
-                  }
-                }
-              )
-
-    //  this.personas=[... this.personas,{ ... data, codpersona:new Date().getTime()}]
-      }
+       }
 
       this.personaSeled = new ClientePersona();
 
     }
 
+    guardardPersona(){
+      if(this.personas.codpersona>0){
+        this.servicePersona.updatePersona(this.personas).subscribe({next:()=>{this.listatodasPersonas()},error:(err)=>{console.log(err.error)}}
+
+        )
+      }else{
+        this.servicePersona.guardarPersona(this.personas).subscribe(
+          {
+            next:()=>{
+             this.listatodasPersonas();
+
+            },error:(err)=>{
+                console.log(err.error);
+
+
+            }
+          }
+        )
+      }
+
+    }
 
     onUpdateClientePersona(datarow:ClientePersona){
       //this.personaSeled=this.personaSeled=datarow
@@ -135,7 +145,7 @@ export class ClieentesComponent {
 
     onDeletedRow(codPersona:number){
       this.servicePersona.deletePersonabyId(codPersona).subscribe(()=>{
-        this.servicePersona.findallPersonas().subscribe(data=>{this.personas=data})
+        this.servicePersona.findallPersonas().subscribe(data=>{this.personaslist=data})
       })
 
     }

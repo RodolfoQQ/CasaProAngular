@@ -45,52 +45,7 @@
         <ng-template #nothabilitado>
 
 
-            <div>
-                    <h6>Formulario Clientes Persona natural</h6>
-                    <div>
-                        <form class="form-control text-muted" (ngSubmit)="guardardPersona()">
 
-                        <div class="row m-4">
-                                    <div class="col-sm-3">
-                                        <div> <label class="text-decoration" >Nombres</label></div>
-                                    <div><input class="form-control"  type="text" [(ngModel)]="personas.nombre" name="nombre"> </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label for="apellidos">Apellidos</label>
-                                        <input class="form-control"  type="text" [(ngModel)]="personas.apellidos" name="apellido">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label for="DNI">DNI</label>
-                                        <input class="form-control"  type="text" [(ngModel)]="personas.dni" name="dni">
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                        <label for="Direccion">Direccion</label>
-                                        <input class="form-control"  type="text" [(ngModel)]="personas.direccion" name="direccion">
-                                    </div>
-                         </div>
-
-                            <div class="row m-4">
-                                <div class="col-sm-3">  <label for="telefono">Telefono</label>
-                                <input class="form-control"  type="text" [(ngModel)]="personas.telefono" name="telefono">
-
-                              </div>
-                                <div class="col-sm-3">  <label for="Correo">Correo</label>
-
-
-                                    <input class="form-control"  type="text" [(ngModel)]="personas.correo" name="correo">
-
-                                </div>
-
-                            </div>
-                            <div class="mx-4"><button class="btn btn-success" >{{(personas.codpersona>0)?'Actualizar':'Crear' }}</button></div>
-
-                        </form>
-                    </div>
-
-
-
-            </div>
         </ng-template>
 
 </div>
