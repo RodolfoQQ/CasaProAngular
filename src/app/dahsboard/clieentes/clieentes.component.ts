@@ -97,17 +97,35 @@ export class ClieentesComponent {
 
       }
       else{
-            this.servicePersona.guardarPersona(data).subscribe((()=>{
+            /*this.servicePersona.guardarPersona(data).subscribe(()=>{
 
               this.servicePersona.findallPersonas().subscribe(data=>{this.personas=data})
 
-            }))
+            })*/
+              this.servicePersona.guardarPersona(data).subscribe(
+                {
+                  next:()=>{
+                    this.servicePersona.findallPersonas().subscribe(
+                      datapersona=>{
+                        this.personas=datapersona
+                      }
+                    )
+
+                  },error:(err)=>{
+                      console.log(err.error);
+
+                  }
+                }
+              )
+
     //  this.personas=[... this.personas,{ ... data, codpersona:new Date().getTime()}]
       }
 
       this.personaSeled = new ClientePersona();
 
     }
+
+
     onUpdateClientePersona(datarow:ClientePersona){
       //this.personaSeled=this.personaSeled=datarow
 
