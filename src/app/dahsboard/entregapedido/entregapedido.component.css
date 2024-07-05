@@ -1,5 +1,16 @@
 .mat-boton-lista{
     background-color: transparent;
-    border: none; 
-    cursor: pointer; 
+    border: none;
+    cursor: pointer;
+}
+
+.titulo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d6e1ee;
+  margin: 0;
+}
+
+.tabla-personalizada{
+  color: #555657;
 }

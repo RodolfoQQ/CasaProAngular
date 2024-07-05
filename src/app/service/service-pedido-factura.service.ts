@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 import { PedidoFactura } from '../dahsboard/models/PedidoFactura';
 
 @Injectable({
@@ -12,11 +13,6 @@ export class ServicePedidoFacturaService {
 
     url:string="http://localhost:8080/api/pedido"
   constructor(private http:HttpClient) { }
-
-  savePedido(pedido:PedidoFactura):Observable<PedidoFactura>{
-
-    return this.http.post<PedidoFactura>(this.url,pedido);
-  }
 
   findall():Observable<PedidoFactura[]>{
 
@@ -31,5 +27,17 @@ export class ServicePedidoFacturaService {
   updateEstadoPedido(codPedido:number ,pedido:PedidoFactura):Observable<PedidoFactura>{
     return this.http.put<PedidoFactura>(`${this.url}/${codPedido}`,pedido)
   }
+
+  savePedido(pedido: PedidoFactura): Observable<PedidoFactura> {
+    return this.http.post<PedidoFactura>(this.url, pedido).pipe(
+      catchError((errorResponse: HttpErrorResponse) => {
+        const errorMessage = errorResponse.error.mensaje || 'Error desconocido';
+        Swal.fire('Error', errorMessage, 'error');
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
+
+
 
 }

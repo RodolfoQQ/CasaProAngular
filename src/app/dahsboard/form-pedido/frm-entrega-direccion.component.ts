@@ -3,13 +3,14 @@ import { Component, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { MaterialModule } from '../../material-module/material-module.module';
 import { PedidoFactura } from '../models/PedidoFactura';
 
 
 @Component({
   selector: 'app-frm-entrega-direccion',
   standalone: true,
-  imports: [FormsModule, NgIf,NgFor],
+  imports: [FormsModule, NgIf,NgFor, MaterialModule],
   templateUrl: './frm-entrega-direccion.component.html',
 
 })

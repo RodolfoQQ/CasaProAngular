@@ -1,11 +1,11 @@
 <div class="container card p-2">
 
-   
+
 
         <div class=" my-2">
             <div class="my-2">
                 <div>
-                    <input [(ngModel)]="pedidoFactura.tipoEntrega.direccion" name="direccion" class="form-control" type="text" placeholder="Direccion">  
+                    <input [(ngModel)]="pedidoFactura.tipoEntrega.direccion" name="direccion" class="form-control" type="text" placeholder="Direccion">
                 </div>
                 <div class="my-4 ">
                     <input [(ngModel)]="pedidoFactura.tipoEntrega.distrito" name="distrito" class="form-control" type="text" placeholder="Distrito">
@@ -28,5 +28,7 @@
                 disabled>
 
         </div>
-        <div> <button (click)="closeDialog()"> save</button></div>
+        <div> <button class="btn -btn-danger" (click)="closeDialog()">
+          <mat-icon>save</mat-icon>
+          </button></div>
     </div>

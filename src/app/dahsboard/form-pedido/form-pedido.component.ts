@@ -2,14 +2,16 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import swal from 'sweetalert';
 import Swal from 'sweetalert2';
+import { MaterialModule } from '../../material-module/material-module.module';
 import { ClienteServiceService } from '../../service/cliente.service.service';
 import { PersonaServiceService } from '../../service/persona-service.service';
 import { ServicePedidoFacturaService } from '../../service/service-pedido-factura.service';
@@ -25,9 +27,9 @@ import { FrmEntregaDireccionComponent } from './frm-entrega-direccion.component'
 @Component({
   selector: 'app-form-pedido',
   standalone: true,
-  imports: [NgFor, NgIf, MatButtonModule, MatIconModule, MatDialogModule, FormsModule,
+  imports: [ NgFor, NgIf,  MaterialModule, MatIconModule, MatDialogModule, FormsModule,
     MatFormFieldModule, MatInputModule, MatAutocompleteModule, ReactiveFormsModule, AsyncPipe,
-    MatFormFieldModule, FrmEntregaDireccionComponent
+    MatFormFieldModule, FrmEntregaDireccionComponent,
   ],
   templateUrl: './form-pedido.component.html',
   styleUrl: './form-pedido.component.css'
@@ -56,6 +58,8 @@ export class FormPedidoComponent {
     private serviceempresa: ClienteServiceService,
     private productoservice: ServiceProductoService,
     private servicePedidoFactura: ServicePedidoFacturaService,
+    private router:Router,
+    private route:ActivatedRoute
 
   ) {
     this.pedidoFactura.tipoEntrega = new TipoEntrega();
@@ -136,33 +140,37 @@ export class FormPedidoComponent {
   findCliente() {
     this.showCliente = true;
 
-    //si tiene 8 digitos o menoos es dni por lo tanto limpia el input donde se muestra la empresa y prepara para mostrar el nombre de persona
-    if (this.rucODni.length <= 8) {
+      this.servicePersona.findbyDni(this.rucODni).subscribe({
+        next: (data: ClientePersona) => {
 
-     // this.clienteEmpresa.nombre = "";
-     // this.clienteEmpresa.codEmpresa = 0
-      this.servicePersona.findbyDni(this.rucODni).subscribe(
-        data => {
           this.clientePersona = data;
-          console.log(JSON.stringify(this.clientePersona.nombre) + "ingreso a persona")
-          //al final limipa el parametro de entrada por el q se filtra
-          this.rucODni = "";
+          if(this.clientePersona!=null){
+            this.clientePersona = data;
+              this.rucODni = "";
+          }else{
+            swal({
+              title:"Cliente no Resgistrado",
+              text:"desa ir a menu cliente para registrar un nuevo cliente?",
+              icon:"error",
 
-        }
-      )
+            }
+            ).then((value) => {
+              if (value) {
+                this.irCliente();
+              }
+            });;
+          }
+
+        },
+
+      });
       //si no si  hace lo contrario
-    } else if (this.rucODni.length >= 8) {
 
-      this.clientePersona.nombre = "";
-      this.clientePersona.codpersona = 0
-      this.serviceempresa.findbyRuc(this.rucODni).subscribe(
-        data => {
-          this.clienteEmpresa = data
-          console.log(JSON.stringify(this.clienteEmpresa) + "ingreso a empresa")
-          this.rucODni = "";
-        }
-      )
     }
+
+
+  irCliente(){
+    this.router.navigate(["dashboard/clientes"])
   }
 
   //abre el dialog direcion y envia la variable pedidofactura
@@ -181,13 +189,16 @@ export class FormPedidoComponent {
     this.pedidoFactura.clientePersona = this.clientePersona
     if (this.showCliente == false) {
       Swal.fire({
-        title: "Tontin!",
+        title: "Error!",
         text: "Seleccione un cliente",
         icon: "error",
       })
     } else {
+
+
+
       this.servicePedidoFactura.savePedido(this.pedidoFactura).subscribe(() => {
-        console.log(this.pedidoFactura.tipoEntrega.direccion)
+
         //limpia los datos de entarda
           this.pedidoFactura = new PedidoFactura()
           this.pedidoFactura.tipoEntrega = new TipoEntrega();

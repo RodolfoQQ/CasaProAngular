@@ -18,13 +18,13 @@ import { PedidoFactura } from '../models/PedidoFactura';
 })
 export class EntregapedidoComponent {
 
-  //pedidofactura:PedidoFactura=new PedidoFactura();
+
   pedidos:PedidoFactura[]=[]
   modal:boolean=false;
   selectedPedido:PedidoFactura =new PedidoFactura();
 
   constructor(private servicePedidoFactura:ServicePedidoFacturaService, public dialog:MatDialog) {
-  //this.pedidos =TipoEntrega()
+
   }
 
   ngOnInit(): void {
@@ -44,9 +44,7 @@ export class EntregapedidoComponent {
     this.servicePedidoFactura.findall().subscribe(
       data=>{
         this.pedidos=data
-        console.log(data.map(dat=>{
-          return dat.estado.codEstado
-        }))
+
       }
     )
   }

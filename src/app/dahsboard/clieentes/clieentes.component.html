@@ -1,128 +1,108 @@
-<!---
-<app-form
- (nuevoClienteEmpresa)="addClienteEmpresa($event)"[clienteempresa]="empresaSelected"
- (cambiohabilitartabla)="onMostrarTabla($event)"
- (personaNew)="addpersontotabla($event)" [personas]="personaSeled"
-></app-form>
 
-   <div *ngIf="tablaEmpresa;else tablaPersona">
-
-    <div class="my-4 container">
-        <h4>Lista Clientes tipo Empresa</h4>
-    <table class="table table-hover table-rounded table-bordered">
-        <thead>
-            <tr class="">
-                <th class="text-muted">Nombres empresa</th>
-                <th class="text-muted">Ruc</th>
-                <th class="text-muted">direccion</th>
-                <th class="text-muted">Telf</th>
-                <th class="text-muted">Correo</th>
-                <th class="text-center" colspan="2">Acciones</th>
-
-            </tr>
-        </thead>
-
-        <tbody>
-            @for (item of empresas; track $index) {
-
-            <tr  >
-                <td >{{item.nombre}}</td>
-                <td>{{item.ruc}}</td>
-                <td>{{item.direccion}}</td>
-                <td>{{item.telefono}}</td>
-                <td>{{item.correo}}</td>
-
-                <th class="text-center"> <button (click)="onUpdate(item)"  class="btn btn-warning" >Actualizar</button></th>
-                <th class="text-center"><button (click)="onDelete(item.codEmpresa)" class=" btn btn-danger text-center">Eliminar</button></th>
-            </tr>
-
-            }
-
-        </tbody>
-    </table>
-</div>
-   </div>
-
--->
 <div>
-  <h6>Formulario Clientes Persona natural</h6>
-  <div>
-      <form class="form-control text-muted" (ngSubmit)="guardardPersona()">
+
+  <div class="container">
+    <h6 class="titulo">Formulario Clientes Persona natural</h6>
+    <form class="form-control text-muted" (ngSubmit)="guardardPersona()">
 
       <div class="row m-4">
-                  <div class="col-sm-3">
-                      <div> <label class="text-decoration" >Nombres</label></div>
-                  <div><input class="form-control"  type="text" [(ngModel)]="personas.nombre" name="nombre"> </div>
-                  </div>
-                  <div class="col-sm-3">
-                      <label for="apellidos">Apellidos</label>
-                      <input class="form-control"  type="text" [(ngModel)]="personas.apellidos" name="apellido">
-                  </div>
-                  <div class="col-sm-3">
-                      <label for="DNI">DNI</label>
-                      <input class="form-control"  type="text" [(ngModel)]="personas.dni" name="dni">
-                  </div>
-
-                  <div class="col-sm-3">
-                      <label for="Direccion">Direccion</label>
-                      <input class="form-control"  type="text" [(ngModel)]="personas.direccion" name="direccion">
-                  </div>
-       </div>
-
-          <div class="row m-4">
-              <div class="col-sm-3">  <label for="telefono">Telefono</label>
-              <input class="form-control"  type="text" [(ngModel)]="personas.telefono" name="telefono">
-
-            </div>
-              <div class="col-sm-3">  <label for="Correo">Correo</label>
-
-
-                  <input class="form-control"  type="text" [(ngModel)]="personas.correo" name="correo">
-
-              </div>
+        <div class="col-sm-3">
+          <div>
 
           </div>
-          <div class="mx-4"><button class="btn btn-success" >{{(personas.codpersona>0)?'Actualizar':'Crear' }}</button></div>
+          <div>
+            <label for="nombre">Nombres:</label>
+            <input class="form-control" type="text" [(ngModel)]="personas.nombre" name="nombre">
+            <!-- Verifica si hay un error en personas.nombre -->
+            @if (error.nombre) {
+              <span class="text text-danger" >
+              {{ error.nombre }}
+            </span>
+            }
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <label for="apellidos">Apellidos</label>
+          <input class="form-control" type="text" [(ngModel)]="personas.apellidos" name="apellidos">
+          @if (error.apellidos) {
+              <span>{{error.apellidos}}</span>
+          }
+        </div>
+        <div class="col-sm-3">
+          <label for="dni">DNI</label>
+          <input class="form-control" type="text" [(ngModel)]="personas.dni" name="dni">
+          @if (error.dni) {
+            <span>{{error.dni}}</span>
+          }
+        </div>
+        <div class="col-sm-3">
+          <label for="direccion">Dirección</label>
+          <input class="form-control" type="text" [(ngModel)]="personas.direccion" name="direccion">
+          @if(error.direccion){
+          <span>{{error.direccion}}</span>
+          }
+        </div>
+      </div>
 
-      </form>
+      <div class="row m-4">
+        <div class="col-sm-3">
+          <label for="telefono">Teléfono</label>
+          <input class="form-control" type="text" [(ngModel)]="personas.telefono" name="telefono">
+          @if(error.telefono){
+           <span> {{error.telefono}}</span>
+          }
+        </div>
+        <div class="col-sm-3">
+          <label for="correo">Correo</label>
+          <input class="form-control" type="text" [(ngModel)]="personas.correo" name="correo">
+          @if (error.correo) {
+            <span>{{error.correo}}</span>
+          }
+        </div>
+      </div>
+
+      <div class="mx-4">
+        <button class="btn btn-success">  <mat-icon>save</mat-icon> {{ (personas.codpersona > 0) ? 'Actualizar' : 'Nuevo' }}</button>
+      </div>
+
+    </form>
+
   </div>
 
+  <div class="my-4 container">
+<table class="table table-hover table-striped  ">
+    <thead class="thead-dark">
+        <tr >
+            <th class="text-muted">Nombres <mat-icon>badge</mat-icon></th>
+            <th class="text-muted">Apellidos <mat-icon> id_card</mat-icon></th>
+            <th class="text-muted">DNI <mat-icon> fingerprint</mat-icon></th>
+            <th class="text-muted">Telf <mat-icon>phone_iphone </mat-icon></th>
+            <th class="text-muted">Correo <mat-icon> alternate_email </mat-icon></th>
+            <th class="text-muted">direccion <mat-icon>pin_drop </mat-icon></th>
+            <th  class="text-center text-muted" colspan="2">Acciones <mat-icon> update</mat-icon></th>
 
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of personaslist">
+            <td class="text-muted">{{item.nombre}}</td>
+            <td class="text-muted">{{item.apellidos}}</td>
+            <td class="text-muted">{{item.dni}}</td>
+            <td class="text-muted">{{item.telefono}}</td>
+            <td class="text-muted">{{item.correo}}</td>
+            <td class="text-muted">{{item.direccion}}</td>
+
+            <th class="text-center"> <button mat-icon-button color="warn"(click)="onUpdateClientePersona(item)" > <mat-icon>edit</mat-icon></button></th>
+            <th class="text-center text-muted"><button mat-icon-button (click)="onDeletedRow(item.codpersona)" ></button>  <mat-icon>delete</mat-icon></th>
+        </tr>
+    </tbody>
+</table>
+</div>
 
 </div>
 
 
-   <ng-template #tablaPersona>
 
-    <div class="my-4 container">
-        <h4>Lista Clientes tipo Persona</h4>
-    <table class="table table-hover table-rounded table-bordered">
-        <thead>
-            <tr class="">
-                <th class="text-muted">Nombres</th>
-                <th class="text-muted">Apellidos</th>
-                <th class="text-muted">DNI</th>
-                <th class="text-muted">Telf</th>
-                <th class="text-muted">Correo</th>
-                <th class="text-muted">direccion</th>
-                <th class="text-center" colspan="2">Acciones</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of personaslist">
-                <td>{{item.nombre}}</td>
-                <td>{{item.apellidos}}</td>
-                <td>{{item.dni}}</td>
-                <td>{{item.telefono}}</td>
-                <td>{{item.correo}}</td>
-                <td>{{item.direccion}}</td>
 
-                <th class="text-center"> <button class="btn btn-warning"(click)="onUpdateClientePersona(item)" >Actualizar</button></th>
-                <th class="text-center"><button class=" btn btn-danger text-center" (click)="onDeletedRow(item.codpersona)" >Eliminar</button></th>
-            </tr>
-        </tbody>
-    </table>
-</div>
-   </ng-template>
 

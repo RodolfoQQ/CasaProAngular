@@ -5,7 +5,7 @@
                 <mat-form-field class="mat-form-field">
                     <mat-label>Cliente</mat-label>
                     <div class="d-flex">
-                        <input matInput [(ngModel)]="rucODni" name="rucODni" type="text" placeholder=" RUC del Cliente">
+                        <input matInput [(ngModel)]="rucODni" name="rucODni" type="text" placeholder=" documento del cliente">
                         <button class=" custon-btn-buscar" (click)="findCliente()" type="submit">
                             <mat-icon>search</mat-icon>
                         </button>
@@ -31,17 +31,17 @@
                     </div>
                 </form>
             </div>
-            
+
         </div>
         <form>
 
             <div>
 
-               
+
             </div>
             <div>
                 <div class="card mx-5 ">
-                    <div *ngIf="showCliente; else esleTemplateCliente ">  
+                    <div *ngIf="showCliente; else esleTemplateCliente ">
                             <div class="card-header bg-success text-white d-flex justify-content-between">
                                 <div>{{clientePersona.nombre}}</div>
                                 <div ><button mat-icon-button (click)="openDireccion(pedidoFactura)">
@@ -52,7 +52,7 @@
 
                     <ng-template #esleTemplateCliente >
                         <div class="alert alert-primary" role="alert">
-                            <strong> ingrese un cliente!</strong> 
+                            <strong> ingrese un cliente!</strong>
                         </div>
                     </ng-template>
 
@@ -84,6 +84,7 @@
 
                                     </td>
 
+
                                     <td>
                                         <button mat-icon-button color="warn" class="mat-icon-button-sm"
                                             (click)="deletedRow(item.producto.nombreProducto)">
@@ -97,18 +98,16 @@
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-end ">
-                            <div class="card m-2 p-2">
-                                <div class="d-flex">
-                                    Total: <span>1586</span>
-                                </div>
+
+
                                 <button mat-icon-button (click)="guardarpedido()">
                                     <mat-icon class="mat-icon-lg">save</mat-icon>
                                 </button>
 
-                            </div>
+
                         </div>
                     </div>
-                    
+
 
                     <ng-template #elseTemplatelista>
                         <div class="alert alert-info"><strong>No tiene produtos seleccionados! </strong> </div>
@@ -118,7 +117,7 @@
             </div>
 
 
-            
+
 
         </form>
     </div>

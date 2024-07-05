@@ -1,0 +1,51 @@
+/* page-not-found.component.css */
+
+.page-not-found-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('https://www.lucushost.com/blog/wp-content/uploads/2018/05/error-404-que-es-como-solucionarlo.png') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.error-card {
+  background-color: rgba(0, 0, 0, 0.25);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.error-card h1 {
+  font-size: 6rem;
+  margin: 0;
+  font-family: 'Pacifico', cursive;
+}
+
+.error-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.error-card h1 {
+  font-size: 6rem;
+  margin: 0;
+  font-family: 'Pacifico', cursive;
+}
+
+.error-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+}

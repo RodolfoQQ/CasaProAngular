@@ -11,10 +11,15 @@ import { MaterialModule } from '../material-module/material-module.module';
   styleUrl: './dahsboard.component.css'
 })
 export class DahsboardComponent {
+  usuario:any
 
   constructor(private router:Router,
     private route:ActivatedRoute, private autservice:ServiceService
   ){}
+
+  ngOnInit(): void {
+    this.usuario=sessionStorage.getItem("activo")
+  }
 
   irAlmacen(){
     this.router.navigate(["almacen"],{relativeTo:this.route})

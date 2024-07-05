@@ -26,7 +26,7 @@ export class ProductoComponent {
   productos:Producto[]=[]
 
   categorias:Categoria[]=[]
-
+  error:any={}
   //productos:Producto[]=[]
   productoSelected:Producto =new Producto();
   //categorias:Categoria[]=[]
@@ -42,7 +42,6 @@ export class ProductoComponent {
 
     this.serviceCategoria.llenaSelect().subscribe(data=>{
       this.categorias=data
-      console.log(this.categorias)
 
 
 
@@ -96,30 +95,39 @@ actualizarProducto(productoaactualzido:Producto){
   guadarProducto():void{
     if(this.producto.codProducto>0){
         this.serviceProducto.actualizarProducto(this.producto).subscribe(
-            ()=>{
-              this.serviceProducto.findallProductos().subscribe(data=>{
-                this.behaivorProduct.actualizarProducto(data)
+          {next:()=>{
+            this.listarProductos()
+          },error:(err)=>{
+              this.error=err.error
 
-              })
-            }
+          }
+
+        }
         )
 
     }else{
       this.serviceProducto.saveProducto(this.producto).subscribe(
-        ()=>{
-          this.serviceProducto.findallProductos().subscribe(data=>{
-            this.behaivorProduct.actualizarProducto(data)
-          this.producto.nombreProducto="";
-          this.producto.descripcion="";
-          this.producto.categoria.codCategoria=0;
-          })
-        }
+      {next:()=>{
+        this.listarProductos()
+      },error:(err)=>{
+
+          this.error=err.error
+      }
+
+    }
 
       )
     }
 
 }
+listarProductos(){
+  this.serviceProducto.findallProductos().subscribe(data=>{
+    this.behaivorProduct.actualizarProducto(data)
+    this.producto.nombreProducto="";
+    this.producto.descripcion="";
 
+  })
+}
 
 }
 

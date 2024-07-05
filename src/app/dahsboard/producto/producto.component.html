@@ -3,15 +3,16 @@
 <div class="container my-4 ">
 
   <div class="row align-items-center ">
-    <div>
-       <h6>Formulario Productos</h6>
+    <div class="">
+       <h6 class="titulo">Formulario Productos</h6>
       <div>
           <form (ngSubmit)="guadarProducto()" class="form-control text-muted" action="">
 
-          <div class="row m-4">
+          <div class="row m-4 ">
                       <div class="col-sm-3">
-                          <div> <label class="text-decoration" >Categoria</label></div>
+
                       <div>
+                        <span>Categoria</span>
                           <select [(ngModel)]="producto.categoria.codCategoria"  name="categoria" class="form-control">
                               <option >Selecione</option>
                               <option  class="form-control"  *ngFor="let cat of categorias"  [value]="cat.codCategoria" > {{cat.nombrCategoria }}</option>
@@ -20,15 +21,21 @@
                       </div>
                       </div>
                       <div class="col-sm-3">
-                          <label for="nombre_producto">nombre del Producto</label>
+                          <label for="nombre_producto">Nombre del producto</label>
                           <input [(ngModel)]="producto.nombreProducto" name="nombreProducto" class="form-control"  type="text">
+                          @if (error.nombreProducto) {
+                            <span class="text text-danger">{{error.nombreProducto}}</span>
+                          }
                       </div>
                       <div class="col-sm-3">
                           <label for="marca">Descripcion</label>
                           <input [(ngModel)]="producto.descripcion" name="descripcion" class="form-control"  type="text">
+                          @if (error.descripcion) {
+                            <span class="text text-danger">{{error.descripcion}}</span>
+                          }
                       </div>
               </div>
-              <div class="mx-4"><button   class="btn btn-success" >{{producto.codProducto>0?'Actualizar':'Gurdar'}}</button></div>
+              <div class="mx-4"><button class="btn btn-success">  <mat-icon>save</mat-icon> {{producto.codProducto>0?'Actualizar':'Guardar'}}</button></div>
 
           </form >
       </div>
@@ -40,15 +47,16 @@
 
   </div>
 
-|<div  id="listadoProductos" class="my-4 container">
-    <table class="table table-hover">
-        <thead>
-            <tr class="">
-                <th class="text-muted"> Cod Prodcto</th>
-                <th class="text-muted">Nombre de producto<th>
-                <th class="text-muted">Descripcion</th>
-                <th class="text-muted"><button class="btn btn-light"></button></th>
-            </tr>
+<div  id="listadoProductos" class="my-4 container">
+    <table class="table table-hover table-striped ">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-muted"> <mat-icon>code</mat-icon></th>
+            <th class="text-muted">Producto <mat-icon>construction</mat-icon> </th>
+            <th class="text-muted">Descripción <mat-icon>description</mat-icon> </th>
+            <th class="text-muted">Categoría <mat-icon>category</mat-icon></th>
+            <th class="text-muted">Acciones <mat-icon>update</mat-icon> </th>
+          </tr>
         </thead>
         <tbody>
             @for (item of productos; track $index) {
@@ -56,13 +64,13 @@
                                 <td class="text-muted">{{item.codProducto}}</td>
                                 <td class="text-muted">{{item.nombreProducto}}</td>
                                  <td class="text-muted">{{item.descripcion}}</td>
-                                 <td class="text-muted">{{item.categoria? item.categoria.nombrCategoria :'Categoria sin asignar' }}</td>
-
-                                <div>
-                                       <td class="text-muted"><button class="btn btn-warning" (click)="onSelectProducto(item)">Editar</button></td>
-                                       <td class="text-muted"><button class="btn btn-danger" (click)="deletedOne(item.codProducto)">Eliminar</button></td>
-
-                                </div>
+                                 <td class="text-muted">{{item.categoria? item.categoria.nombrCategoria :'Categoria sin asignar'}}</td>
+                                       <td class="text-muted">  <button mat-icon-button color="warn" (click)="onSelectProducto(item)">
+                                        <mat-icon>edit</mat-icon>
+                                      </button></td>
+                                       <td class="text-muted"><button mat-icon-button color="danger" (click)="deletedOne(item.codProducto)">
+                                        <mat-icon>delete</mat-icon>
+                                      </button></td>
                                 </tr>
             }
 

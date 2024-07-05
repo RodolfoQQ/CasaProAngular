@@ -10,6 +10,7 @@ export class ServiceService {
 
   login(usuario:string, password:string){
     sessionStorage.setItem("isLogged","true");
+    sessionStorage.setItem("activo",usuario)
 
   }
   logOut(){

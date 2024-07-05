@@ -20,10 +20,17 @@ export class PersonaServiceService {
     );*/
 
   }
+  guardarPersona(cliente: ClientePersona):Observable<ClientePersona> {
+    return this.http.post<ClientePersona>(this.urlEnpoit, cliente)/*.pipe(
+      catchError((errorResponse: HttpErrorResponse) => {
+        const mensaje = errorResponse.error.error;
+        console.error('Error:', mensaje); // Para depuración en consola
+          Swal.fire("error"+mensaje)
 
-  guardarPersona(cliente:ClientePersona){
 
-    return this.http.post(this.urlEnpoit,cliente)
+        return throwError(() => new Error());
+      })
+    );*/
   }
 
   updatePersona(cliente:ClientePersona):Observable<ClientePersona>{

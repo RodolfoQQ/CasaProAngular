@@ -3,7 +3,9 @@
   margin: 50px auto;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  background: rgba(255, 255, 255, 0.7);
 }
+
 
 .login-card-avatar {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
@@ -31,3 +33,35 @@ mat-card-actions {
 button {
   width: 100%;
 }
+
+
+.login-background {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.image-left, .image-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+.image-left {
+  left: 0;
+  background-image: url('https://cdn.getmidnight.com/4721dc6a803c213861d569b31f3c121f/2021/10/tipos-almacenes-mundi.jpg');
+}
+.image-right {
+  right: 0;
+  background-image: url('https://cdn.getmidnight.com/4721dc6a803c213861d569b31f3c121f/2021/10/tipos-almacenes-mundi.jpg');
+}
+
+
+
+

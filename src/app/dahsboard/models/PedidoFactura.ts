@@ -8,6 +8,6 @@ export class PedidoFactura{
     fecha!:string
     clientePersona!:ClientePersona
     rowPedidos: Array<RowPedido>=[]
-    tipoEntrega!: TipoEntrega; 
+    tipoEntrega!: TipoEntrega;
     estado!:Estado;
 }
